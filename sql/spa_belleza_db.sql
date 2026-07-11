@@ -237,6 +237,12 @@ INSERT INTO roles (nombre_rol, descripcion) VALUES
     ('Colaborador Spa', 'Atiende las citas que le son asignadas y actualiza su estado'),
     ('Cliente',         'Agenda citas, compra productos y consulta su historial');
 
+
 -- =========================================================================
--- FIN DEL SCRIPT
+-- DATOS DE PRUEBA INDEPENDIENTES
 -- =========================================================================
+INSERT INTO usuarios (id_rol, nombre, correo, contrasena, telefono, estado) 
+VALUES (1, 'Carlos Mendoza', 'admin@spabelleza.com', 'admin123', '0999999999', 1);
+
+INSERT INTO empleados (id_usuario, cedula, cargo, direccion, fecha_contratacion, estado) 
+VALUES (LAST_INSERT_ID(), '1723456789', 'Administrador General', 'Av. Principal y Calle 4', '2026-01-15', 1);
