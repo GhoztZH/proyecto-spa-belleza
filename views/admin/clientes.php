@@ -1,2 +1,0 @@
-<?
-// autor: Zhunaula Kevin

@@ -10,6 +10,10 @@ class Cliente {
     private string $genero;
     private string $observaciones;
 
+    private $nombre;
+    private $correo;
+    private $telefono;
+
     // Campos heredados/relacionados de la tabla 'usuarios' para facilitar el uso en vistas
     public function __construct(
         $id_usuario = null,
@@ -45,7 +49,6 @@ class Cliente {
     public function setObservaciones($observaciones) { $this->observaciones = $observaciones; }
 
     // --- GETTERS Y SETTERS DE RELACIÓN (USUARIOS) ---
-    /*
     public function getNombre() { return $this->nombre; }
     public function setNombre($nombre) { $this->nombre = $nombre; }
 
@@ -54,5 +57,5 @@ class Cliente {
 
     public function getTelefono() { return $this->telefono; }
     public function setTelefono($telefono) { $this->telefono = $telefono; }
-    */
+    
 }

@@ -9,6 +9,8 @@ class ClienteController
 {
     public function registrarCliente() 
     {
+        $clienteDAO = new ClienteDAO();
+
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Recibimos los datos del formulario
             //datos para la tabla usuarios
@@ -42,7 +44,7 @@ class ClienteController
                     $genero,
                     $observaciones
                 );
-                $resultado = new ClienteDAO()->insertar($cliente);
+                $resultado = $clienteDAO->insertar($cliente);
 
                 if ($resultado) {
                     echo "Cliente registrado exitosamente.";
@@ -52,7 +54,9 @@ class ClienteController
             } else {
                 echo "Error al registrar el usuario.";
             }
-            
         }
+
+        $clientes = $clienteDAO->obtenerTodos();
+        require_once "views/admin/clientes_crud.php";
     }
 }

@@ -17,7 +17,7 @@ class AdminController
         $clientes = 
 
         // Cargamos la vista del módulo de usuarios
-        require_once "views/admin/clientes.php";
+        require_once "views/admin/clientes_crud.php";
     }
 
     // Acción para mostrar el módulo de Usuarios (Clientes, Empleados, Roles)
