@@ -46,25 +46,26 @@ class EmpleadoDAO extends BaseDAO
         );
     }
 
-    public function insertar(Empleado $empleado): bool
+    /* revisar function para insertar
+    public function insertar(Empleado $empleado, $idUsuario): bool
     {
         $sql = "INSERT INTO empleados
-                (nombres, apellidos, cedula, telefono, direccion, cargo, estado, id_usuario)
+                ( cedula, cargo, direccion, fecha_contratacion, estado, id_usuario)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conexion->prepare($sql);
 
         return $stmt->execute([
-            $empleado->getNombres(),
-            $empleado->getApellidos(),
             $empleado->getCedula(),
-            $empleado->getTelefono(),
-            $empleado->getDireccion(),
             $empleado->getCargo(),
+            $empleado->getDireccion(),
+            $empleado->getFechaContratacion(),
             $empleado->getEstado(),
-            $empleado->getIdUsuario()
+            $idUsuario
         ]);
     }
+
+    */
 
     public function actualizar(Empleado $empleado): bool
     {

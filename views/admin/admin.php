@@ -1,5 +1,7 @@
 <?php require_once "views/layouts/header.php"; ?>
 
+<!--Autor: Zhunaula Kevin-->
+
 <main class="content">
 
     <section class="welcome">
@@ -11,13 +13,13 @@
     <section class="module-section">
         <h3>Administración</h3>
         <div class="modules-grid">
-            <article class="card module-card" data-url="index.php?controller=admin&action=usuarios">
+            <article class="card module-card" data-url="?controller=admin&action=clientes">
                 <i class="fa-solid fa-users module-icon"></i>
-                <h4>Usuarios</h4>
-                <p>Gestionar usuarios y credenciales del sistema.</p>
+                <h4>Clientes</h4>
+                <p>Gestionar información de los clientes.</p>
             </article>
 
-            <article class="card module-card" data-url="index.php?controller=admin&action=usuarios">
+            <article class="card module-card" data-url="?controller=admin&action=empleados">
                 <i class="fa-solid fa-user-tie module-icon"></i>
                 <h4>Empleados</h4>
                 <p>Administrar la información del personal.</p>

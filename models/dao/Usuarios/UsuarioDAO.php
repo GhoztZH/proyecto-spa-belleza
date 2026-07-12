@@ -1,5 +1,7 @@
 <?php
 
+// autor: Zhunaula Kevin
+
 require_once "BaseDAO.php";
 require_once "models/dto/usuario.php";
 
@@ -19,4 +21,5 @@ class UsuarioDAO extends BaseDAO
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }

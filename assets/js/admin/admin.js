@@ -1,7 +1,4 @@
-/*==================================================
-    ADMIN.JS
-    Manejo de eventos globales del Panel
-==================================================*/
+// Autor: Zhunaula Kevin
 
 document.addEventListener('DOMContentLoaded', () => {
     
