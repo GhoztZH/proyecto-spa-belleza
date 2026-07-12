@@ -1,7 +1,7 @@
 <?php
 
 require_once "BaseDAO.php";
-require_once "models/Rol.php";
+require_once "models/dto/usuarios/rol.php";
 
 class RolDAO extends BaseDAO
 {

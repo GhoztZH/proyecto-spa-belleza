@@ -2,8 +2,8 @@
 
 // autor: Zhunaula Kevin
 
-require_once "BaseDAO.php";
-require_once "models/dto/cliente.php";
+require_once "models/dao/baseDAO.php";
+require_once "models/dto/usuarios/cliente.php";
 
 class ClienteDAO extends BaseDAO
 {

@@ -1,7 +1,7 @@
 <?php
 
-require_once "BaseDAO.php";
-require_once "models/Empleado.php";
+require_once "models/dao/baseDAO.php";
+require_once "models/dto/usuarios/empleado.php";
 
 class EmpleadoDAO extends BaseDAO
 {

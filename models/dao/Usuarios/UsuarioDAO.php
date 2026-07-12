@@ -2,8 +2,8 @@
 
 // autor: Zhunaula Kevin
 
-require_once "BaseDAO.php";
-require_once "models/dto/Usuarios/usuario.php";
+require_once "models/dao/baseDAO.php";
+require_once "models/dto/usuarios/usuario.php";
 
 class UsuarioDAO extends BaseDAO
 {

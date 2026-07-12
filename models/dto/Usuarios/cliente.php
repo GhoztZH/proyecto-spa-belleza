@@ -1,4 +1,4 @@
-<?
+<?php
 //Autor Zhunaula Kevin
 
 class Cliente {
