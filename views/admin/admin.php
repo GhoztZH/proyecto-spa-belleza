@@ -60,4 +60,7 @@
 </main>
 
 </div>
-</div> <?php require_once "views/layouts/footer.php"; ?>
+</div> <?php 
+$pageScript = "assets/js/admin/admin.js";
+require_once "views/layouts/footer.php"; 
+?>

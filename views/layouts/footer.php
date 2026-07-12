@@ -3,13 +3,12 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"></script>
-<script src="assets/js/admin/admin.js"></script>
 
 <?php
-if (isset($pageScript) && file_exists($pageScript)) {
-    echo '<script src="' . $pageScript . '"></script>';
+// Imprimimos el script directamente si la variable fue declarada en la vista
+if (isset($pageScript)) {
+    echo '<script src="' . htmlspecialchars($pageScript) . '"></script>';
 }
 ?>
 </body>
-
 </html>
