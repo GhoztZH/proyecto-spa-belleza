@@ -16,6 +16,7 @@ class ClienteController
             $correo = $_POST['correo'];
             $contrasena = $_POST['contrasena'];
             $telefono = $_POST['telefono'];
+
             // Fecha se establece en la base de datos con CURRENT_TIMESTAMP, por lo que no es necesario recibirla del formulario
             //El estado se establece en 1 (activo) por defecto, por lo que tampoco es necesario recibirlo del formulario
 
@@ -27,13 +28,7 @@ class ClienteController
             //El estado se obtiene de usuarios
 
             // Crear el objeto Usuario
-            $usuario = new Usuario(
-                $nombre,
-                $correo,
-                $contrasena,
-                $telefono,
-                3 // idRol para clientes
-            );
+            $usuario = new Usuario (null, $nombre, $correo, $contrasena, $telefono, true, "", 3); // Rol fijo: Cliente
 
             // Insertar el usuario y obtener el ID generado
             $idUsario = new UsuarioDAO()->insertarUserCliente($usuario);
@@ -45,7 +40,6 @@ class ClienteController
                     $direccion,
                     $fechaNacimiento,
                     $genero,
-                    1, // estado activo
                     $observaciones
                 );
                 $resultado = new ClienteDAO()->insertar($cliente);

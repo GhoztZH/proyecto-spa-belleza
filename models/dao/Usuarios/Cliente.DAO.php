@@ -38,14 +38,9 @@ class ClienteDAO extends BaseDAO
                 $cliente->setDireccion($row['direccion']);
                 $cliente->setFechaNacimiento($row['fecha_nacimiento']);
                 $cliente->setGenero($row['genero']);
-                $cliente->setEstado($row['estado']);
                 $cliente->setObservaciones($row['observaciones']);
                 
                 // Setear campos heredados de la consulta JOIN
-                $cliente->setNombre($row['nombre']);
-                $cliente->setCorreo($row['correo']);
-                $cliente->setTelefono($row['telefono']);
-                
                 $lista[] = $cliente;
             }
         } catch (PDOException $e) {
@@ -58,8 +53,8 @@ class ClienteDAO extends BaseDAO
     public function insertar(Cliente $cliente): bool
     {
         try {
-            $sql = "INSERT INTO clientes (id_usuario, direccion, fecha_nacimiento, genero, estado, observaciones) 
-                    VALUES (:id_usuario, :direccion, :fecha_nacimiento, :genero, :estado, :observaciones)";
+            $sql = "INSERT INTO clientes (id_usuario, direccion, fecha_nacimiento, genero, observaciones) 
+                    VALUES (:id_usuario, :direccion, :fecha_nacimiento, :genero, :observaciones)";
             
             $stmt = $this->conexion->prepare($sql);
             
@@ -68,7 +63,6 @@ class ClienteDAO extends BaseDAO
                 ':direccion'        => $cliente->getDireccion(),
                 ':fecha_nacimiento' => $cliente->getFechaNacimiento(),
                 ':genero'           => $cliente->getGenero(),
-                ':estado'           => $cliente->getEstado(),
                 ':observaciones'    => $cliente->getObservaciones()
             ]);
         } catch (PDOException $e) {
