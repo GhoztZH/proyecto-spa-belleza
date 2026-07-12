@@ -25,23 +25,38 @@ class UsuarioDAO extends BaseDAO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function insertarCliente(Usuario $usuario): int 
+    public function insertarUserCliente(Usuario $usuario): ?int
     {
-        $sql = "INSERT INTO usuarios (nombre, correo, contrasena, telefono, estado, fecha_registro, id_rol)
-        VALUES (?, ?, ?, ?, ?, ?, ?)";
-        
-        $stmt = $this->conexion->prepare($sql);
-        
-        $stmt->execute([
-            $usuario->getUsername(),
-            $usuario->getCorreo(),
-            $usuario->getPassword(),
-            $usuario->getTelefono(),
-            $usuario->getEstado(),
-            $usuario->getFechaRegistro(),
-            $usuario->getIdRol()
-        ]);
+        try {
+            // CORREGIDO: comas agregadas en VALUES e id_rol corregido
+            $sql = "INSERT INTO usuarios (id_rol, nombre, correo, contrasena, telefono, estado, fecha_registro)
+                    VALUES (:id_rol, :nombre, :correo, :contrasena, :telefono, :estado, :fecha_registro)";
 
-        return $this->conexion->lastInsertId();
+            $stmt = $this->conexion->prepare($sql);
+
+            $exito = $stmt->execute([
+                'id_rol'          => $usuario->getIdRol(),
+                ':nombre'         => $usuario->getUsername(),
+                ':correo'         => $usuario->getCorreo(),
+                ':contrasena'     => $usuario->getPassword(),
+                ':telefono'       => $usuario->getTelefono(),
+                ':estado'         => $usuario->getEstado() ? 1 : 0, // Convertimos el bool a 1 o 0 para TinyInt
+                ':fecha_registro' => $usuario->getFechaRegistro()
+            ]);
+
+            // SI EL INSERT FUNCIONÓ: Devolvemos el ID casteado a entero
+            if ($exito) {
+                return (int)$this->conexion->lastInsertId();
+            }
+
+            return null;
+        } catch (PDOException $e) {
+            error_log("Error en UsuarioDAO::insertarUserCliente -> " . $e->getMessage());
+            return null;
+        }
     }
+
+    //Colocar aqui el insert para empleados
+
+    public function insertarUserEmpleado() {}
 }

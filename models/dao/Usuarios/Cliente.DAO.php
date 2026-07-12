@@ -22,12 +22,11 @@ class ClienteDAO extends BaseDAO
         $lista = [];
         try {
             // El INNER JOIN mapea los datos cruzados mediante la FK
-            $sql = "SELECT c.*, u.nombre, u.correo, u.telefono 
+            $sql = "SELECT c.*, u.nombre, u.correo, u.telefono , u fecha_registro
                     FROM clientes c
                     INNER JOIN usuarios u ON c.id_usuario = u.id_usuario
-                    WHERE c.estado = 1";
+                    WHERE c.estado = 1";    //1: activo, 0: inactivo
             
-            // Corregido: cambiamos $this->db por $this->conexion
             $stmt = $this->conexion->prepare($sql);
             $stmt->execute();
             
