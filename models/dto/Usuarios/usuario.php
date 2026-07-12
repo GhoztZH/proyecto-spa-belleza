@@ -6,7 +6,9 @@ class Usuario
     private string $username;
     private string $correo;
     private string $password;
+    private string $telefono;
     private bool $estado;
+    private string $fechaRegistro;
     private int $idRol;
 
     public function __construct(
@@ -14,14 +16,18 @@ class Usuario
         string $username = '',
         string $correo = '',
         string $password = '',
+        string $telefono = '',
         bool $estado = true,
+        string $fechaRegistro = '',
         int $idRol = 0
     ) {
         $this->idUsuario = $idUsuario;
         $this->username = $username;
         $this->correo = $correo;
         $this->password = $password;
+        $this->telefono = $telefono;
         $this->estado = $estado;
+        $this->$fechaRegistro = '';
         $this->idRol = $idRol;
     }
 
@@ -60,6 +66,16 @@ class Usuario
         return $this->password;
     }
 
+    public function getTelefono(): string
+    {
+        return $this->telefono;
+    }
+
+    public function setTelefono(string $telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
     public function setPassword(string $password): void
     {
         $this->password = $password;
@@ -73,6 +89,16 @@ class Usuario
     public function setEstado(bool $estado): void
     {
         $this->estado = $estado;
+    }
+
+    public function getFechaRegistro(): string
+    {
+        return $this->fechaRegistro;
+    }
+
+    public function setFechaRegistro(string $fechaRegistro): void
+    {
+        $this->fechaRegistro = $fechaRegistro;
     }
 
     public function getIdRol(): int
