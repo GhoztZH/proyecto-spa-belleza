@@ -2,6 +2,9 @@
 $tituloPagina = "Editar Usuario";
 $pageStyles = "assets/css/usuarios.css";
 require_once "views/layouts/header.php";
+
+/** @var Usuario $usuario */
+/** @var Rol $roles */
 ?>
 
 <!-- Zhunaula Imbaquingo Kevin Leodan -->

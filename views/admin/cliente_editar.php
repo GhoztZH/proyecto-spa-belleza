@@ -2,6 +2,8 @@
 $tituloPagina = "Editar Cliente";
 $pageStyles = "assets/css/clientes.css";
 require_once "views/layouts/header.php";
+
+/** @var Cliente $cliente */
 ?>
 
 <!-- Autor: Zhunaula Imbaquingo Kevin Leodan -->
