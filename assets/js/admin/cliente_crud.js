@@ -1,3 +1,5 @@
+// Autor: Zhunaula Imbaquingo Kevin Leodan
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // ==========================================

@@ -1,4 +1,4 @@
-// Autor: Integrante 1
+// Autor: Zhunaula Imbaquingo Kevin Leodan
 // Validaciones del formulario de registro público de clientes.
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,4 +1,4 @@
-// Autor: Integrante 1
+// Autor: Zhunaula Imbaquingo Kevin Leodan
 // Comportamiento de interfaz del CRUD de Empleados.
 
 document.addEventListener('DOMContentLoaded', function () {

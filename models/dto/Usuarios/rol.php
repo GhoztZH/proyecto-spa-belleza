@@ -1,6 +1,7 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // DTO (Model) - Capa de datos: representa un registro de la tabla 'roles'.
-// Autor: Integrante 1
 // Responsabilidad: únicamente contener atributos, constructor, getters y setters.
 
 class Rol

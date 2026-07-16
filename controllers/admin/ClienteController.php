@@ -1,8 +1,9 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // CONTROLLER - Gestiona el CRUD de clientes desde el panel administrativo.
 // Coordina la creación simultánea del usuario (datos personales + acceso)
 // y de su fila en 'clientes' dentro de una transacción.
-// Autor: Zhunaula Kevin / Integrante 1
 
 require_once "controllers/SesionHelper.php";
 require_once "models/dao/usuarios/ClienteDAO.php";

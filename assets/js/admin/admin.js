@@ -1,4 +1,4 @@
-// Autor: Zhunaula Kevin
+// Autor: Zhunaula Imbaquingo Kevin Leodan
 
 document.addEventListener('DOMContentLoaded', () => {
     

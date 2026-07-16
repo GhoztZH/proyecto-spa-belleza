@@ -1,8 +1,9 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // DAO - Capa de acceso a datos: ejecuta las consultas PDO sobre la tabla
 // 'clientes'. Los datos personales viven en 'usuarios', por lo que todas
 // las consultas de lectura se resuelven mediante INNER JOIN.
-// Autor: Zhunaula Kevin / Integrante 1
 // (Renombrado desde Cliente.DAO.php para mantener la convención NombreDAO.php
 // utilizada por el resto de los DAO del proyecto: UsuarioDAO, EmpleadoDAO, RolDAO)
 

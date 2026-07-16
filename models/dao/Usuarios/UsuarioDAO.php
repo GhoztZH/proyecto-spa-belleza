@@ -1,9 +1,10 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // DAO - Capa de acceso a datos: ejecuta las consultas PDO sobre la tabla
 // 'usuarios', entidad central de autenticación de la que dependen
 // empleados y clientes. No contiene lógica de negocio ni validaciones;
 // esa responsabilidad pertenece a los Controllers.
-// Autor: Zhunaula Kevin / Integrante 1
 
 require_once "models/dao/baseDAO.php";
 require_once "models/dto/usuarios/usuario.php";

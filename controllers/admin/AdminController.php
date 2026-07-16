@@ -1,9 +1,10 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // CONTROLLER - Punto de entrada del panel administrativo. El listado y
 // búsqueda de Clientes/Empleados vive en sus propios Controllers
 // (ClienteController, EmpleadoController) para respetar una única
 // responsabilidad por Controller; este solo sirve el Dashboard.
-// Autor: Zhunaula Kevin / Integrante 1
 
 require_once "controllers/SesionHelper.php";
 

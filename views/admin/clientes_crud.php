@@ -4,7 +4,7 @@ $pageStyles = "assets/css/clientes.css";
 require_once "views/layouts/header.php";
 ?>
 
-<!-- Autor: Zhunaula Kevin / Integrante 1 -->
+<!-- Autor: Zhunaula Imbaquingo Kevin Leodan -->
 
 <main class="content">
 

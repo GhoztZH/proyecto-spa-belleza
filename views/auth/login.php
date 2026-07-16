@@ -4,7 +4,7 @@ $pageStyles = "assets/css/login.css";
 require_once "views/layouts/header_publico.php";
 ?>
 
-<!-- Autor: Integrante 1 -->
+<!-- Autor: Zhunaula Imbaquingo Kevin Leodan -->
 
 <main class="auth-page">
     <div class="card auth-card">

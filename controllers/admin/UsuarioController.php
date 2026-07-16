@@ -1,8 +1,9 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // CONTROLLER - Gestiona el CRUD de la tabla 'usuarios' desde el panel
 // administrativo: listado general de cuentas, búsqueda, edición de
 // datos/rol/estado y baja lógica. Reservado al rol Administrador.
-// Autor: Integrante 1
 
 require_once "controllers/SesionHelper.php";
 require_once "models/dao/usuarios/UsuarioDAO.php";

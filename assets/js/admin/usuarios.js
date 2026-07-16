@@ -1,4 +1,4 @@
-// Autor: Integrante 1
+// Autor: Zhunaula Imbaquingo Kevin Leodan
 // Comportamiento de interfaz para el listado de Usuarios.
 
 document.addEventListener('DOMContentLoaded', function () {

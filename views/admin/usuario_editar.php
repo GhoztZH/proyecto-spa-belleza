@@ -4,7 +4,7 @@ $pageStyles = "assets/css/usuarios.css";
 require_once "views/layouts/header.php";
 ?>
 
-<!-- Autor: Integrante 1 -->
+<!-- Zhunaula Imbaquingo Kevin Leodan -->
 
 <main class="content">
 

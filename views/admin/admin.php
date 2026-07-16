@@ -1,6 +1,6 @@
 <?php require_once "views/layouts/header.php"; ?>
 
-<!--Autor: Zhunaula Kevin-->
+<!--Autor: Zhunaula Imbaquingo Kevin Leodan-->
 
 <main class="content">
 

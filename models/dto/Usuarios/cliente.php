@@ -1,6 +1,7 @@
 <?php
+//Autor: Zhunaula Imbaquingo Kevin Leodan
+
 // DTO (Model) - Capa de datos: representa un registro de la tabla 'clientes'.
-// Autor: Integrante 1 (basado en la propuesta original de Zhunaula Kevin)
 // Responsabilidad: únicamente contener atributos, constructor, getters y setters.
 // Los datos personales (nombre, apellido, correo, celular) no pertenecen a esta
 // tabla; se exponen aquí como atributos de solo lectura para facilitar su uso

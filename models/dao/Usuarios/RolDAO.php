@@ -1,4 +1,6 @@
 <?php
+//autor: Zhunaula Imbaquingo Kevin Leodan
+
 // DAO - Capa de acceso a datos: consultas de solo lectura sobre 'roles'.
 // La tabla roles no tiene CRUD (ver sql/spa_belleza_db.sql), por lo que
 // este DAO únicamente expone métodos de consulta.
