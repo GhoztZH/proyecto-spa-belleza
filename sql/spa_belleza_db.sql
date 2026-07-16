@@ -260,3 +260,13 @@ VALUES (
 
 INSERT INTO empleados (id_usuario, cargo, fecha_ingreso)
 VALUES (LAST_INSERT_ID(), 'Administrador General', '2026-01-15');
+
+
+--Datos de pruba Categoria productos
+
+INSERT INTO categorias_producto (nombre_categoria, descripcion, estado) VALUES
+('Cabello', 'Shampoo, acondicionadores y tratamientos capilares',1),
+('Facial', 'Productos para limpieza e hidratación facial',1),
+('Corporal', 'Cremas, exfoliantes y aceites corporales',1),
+('Masajes', 'Aceites y productos para terapias de masaje',1),
+('Maquillaje', 'Productos cosméticos y belleza',1);
