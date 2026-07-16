@@ -4,6 +4,13 @@
 -- Descripción: Modelo relacional normalizado (3FN) para gestión de
 --              usuarios, roles, empleados, clientes, servicios,
 --              productos, citas y ventas.
+--
+-- NOTA DE ACTUALIZACIÓN (Módulo Integrante 1 - Autenticación y Usuarios):
+-- Se reestructuraron las tablas roles, usuarios, empleados y clientes
+-- para eliminar la redundancia de datos personales. Toda la información
+-- personal y de autenticación ahora se centraliza en "usuarios"; las
+-- tablas "empleados" y "clientes" solo contienen los atributos propios
+-- de cada rol y se relacionan 1:1 con "usuarios".
 -- =========================================================================
 
 CREATE DATABASE IF NOT EXISTS spa_belleza
@@ -14,31 +21,33 @@ USE spa_belleza;
 
 -- =========================================================================
 -- TABLA: roles
--- Propósito: Catálogo fijo de los roles del sistema (Administrador,
---            Colaborador Spa, Cliente). No tiene CRUD; se puebla por seed.
+-- Propósito: Catálogo fijo de los roles del sistema. No tiene CRUD propio;
+--            se puebla únicamente mediante los datos semilla de este script.
 -- Relación:  Es referenciada por la tabla usuarios (1 rol -> N usuarios).
 -- =========================================================================
 CREATE TABLE roles (
-    id_rol      INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_rol  VARCHAR(50)  NOT NULL UNIQUE,
-    descripcion VARCHAR(150) NULL
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(30) NOT NULL UNIQUE
 ) ENGINE=InnoDB;
 
 -- =========================================================================
 -- TABLA: usuarios
--- Propósito: Tabla única de autenticación para TODOS los tipos de usuario
---            (administradores, colaboradores spa y clientes).
+-- Propósito: Centraliza toda la información personal y de autenticación
+--            del sistema (administradores, colaboradores y clientes),
+--            evitando duplicidad de datos entre empleados y clientes.
 -- Relación:  FK hacia roles. Es referenciada 1:1 por empleados y clientes.
 -- =========================================================================
 CREATE TABLE usuarios (
     id_usuario     INT AUTO_INCREMENT PRIMARY KEY,
     id_rol         INT NOT NULL,
-    nombre         VARCHAR(100) NOT NULL,
-    correo         VARCHAR(150) NOT NULL UNIQUE,
-    contrasena     VARCHAR(255) NOT NULL,
-    telefono       VARCHAR(15)  NULL,
-    estado         TINYINT(1)   NOT NULL DEFAULT 1,
-    fecha_registro DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    nombre         VARCHAR(80)  NOT NULL,
+    apellido       VARCHAR(80)  NOT NULL,
+    correo         VARCHAR(120) NOT NULL UNIQUE,
+    celular        VARCHAR(20)  NOT NULL,
+    username       VARCHAR(50)  NOT NULL UNIQUE,
+    password       VARCHAR(255) NOT NULL,
+    estado         BOOLEAN      NOT NULL DEFAULT TRUE,
+    fecha_creacion TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_usuarios_rol
         FOREIGN KEY (id_rol) REFERENCES roles(id_rol)
         ON UPDATE CASCADE ON DELETE RESTRICT
@@ -48,19 +57,17 @@ CREATE INDEX idx_usuarios_rol ON usuarios(id_rol);
 
 -- =========================================================================
 -- TABLA: empleados
--- Propósito: Datos propios del personal interno del spa (no de contacto,
---            eso vive en usuarios). CRUD gestionado por el Administrador.
+-- Propósito: Contiene únicamente la información laboral del colaborador.
+--            Los datos personales (nombre, correo, etc.) pertenecen a
+--            la tabla usuarios y no se duplican aquí.
 -- Relación:  FK 1:1 hacia usuarios. Es referenciada por citas
 --            (colaborador asignado).
 -- =========================================================================
 CREATE TABLE empleados (
-    id_empleado         INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario          INT NOT NULL UNIQUE,
-    cedula              VARCHAR(20)  NOT NULL UNIQUE,
-    cargo               VARCHAR(100) NOT NULL,
-    direccion           VARCHAR(200) NULL,
-    fecha_contratacion  DATE NOT NULL,
-    estado              TINYINT(1)   NOT NULL DEFAULT 1,
+    id_empleado   INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario    INT NOT NULL UNIQUE,
+    cargo         VARCHAR(80) NOT NULL,
+    fecha_ingreso DATE NOT NULL,
     CONSTRAINT fk_empleados_usuario
         FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -68,18 +75,15 @@ CREATE TABLE empleados (
 
 -- =========================================================================
 -- TABLA: clientes
--- Propósito: Datos propios del cliente (no de contacto, eso vive en
---            usuarios). Permite registro, edición de perfil, citas y compras.
+-- Propósito: Representa a los clientes registrados en el sistema. Los
+--            datos personales pertenecen a usuarios; esta tabla solo
+--            marca la relación de rol "Cliente" para futuras
+--            funcionalidades (citas, compras).
 -- Relación:  FK 1:1 hacia usuarios. Es referenciada por citas y ventas.
 -- =========================================================================
 CREATE TABLE clientes (
-    id_cliente        INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario        INT NOT NULL UNIQUE,
-    direccion         VARCHAR(200) NULL,
-    fecha_nacimiento  DATE NULL,
-    genero            ENUM('Masculino','Femenino','Otro') NULL,
-    estado            TINYINT(1)   NOT NULL DEFAULT 1,
-    observaciones     VARCHAR(255) NULL,
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT NOT NULL UNIQUE,
     CONSTRAINT fk_clientes_usuario
         FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
         ON UPDATE CASCADE ON DELETE CASCADE
@@ -232,17 +236,27 @@ CREATE INDEX idx_detalle_venta_producto ON detalle_venta(id_producto);
 -- =========================================================================
 -- SEED: Roles del sistema (fijos, no editables desde CRUD)
 -- =========================================================================
-INSERT INTO roles (nombre_rol, descripcion) VALUES
-    ('Administrador',   'Gestiona usuarios, empleados, clientes, servicios, productos, citas y ventas'),
-    ('Colaborador Spa', 'Atiende las citas que le son asignadas y actualiza su estado'),
-    ('Cliente',         'Agenda citas, compra productos y consulta su historial');
-
+INSERT INTO roles (nombre) VALUES
+    ('Administrador'),
+    ('Colaborador'),
+    ('Cliente');
 
 -- =========================================================================
--- DATOS DE PRUEBA INDEPENDIENTES
+-- DATOS DE PRUEBA: Usuario Administrador
+-- La contraseña ya está hasheada con password_hash() (BCRYPT), tal como
+-- la generará el sistema en un registro real. Contraseña en texto plano: admin123
 -- =========================================================================
-INSERT INTO usuarios (id_rol, nombre, correo, contrasena, telefono, estado) 
-VALUES (1, 'Carlos Mendoza', 'admin@spabelleza.com', 'admin123', '0999999999', 1);
+INSERT INTO usuarios (id_rol, nombre, apellido, correo, celular, username, password, estado)
+VALUES (
+    1,
+    'Carlos',
+    'Mendoza',
+    'admin@spabelleza.com',
+    '0999999999',
+    'admin',
+    '$2y$10$XSC0ZW4GCnByfKb4j1xOUeAJjcjh2kxjvP2DofpH6MD1VrV0vUx5y',
+    1
+);
 
-INSERT INTO empleados (id_usuario, cedula, cargo, direccion, fecha_contratacion, estado) 
-VALUES (LAST_INSERT_ID(), '1723456789', 'Administrador General', 'Av. Principal y Calle 4', '2026-01-15', 1);
+INSERT INTO empleados (id_usuario, cargo, fecha_ingreso)
+VALUES (LAST_INSERT_ID(), 'Administrador General', '2026-01-15');

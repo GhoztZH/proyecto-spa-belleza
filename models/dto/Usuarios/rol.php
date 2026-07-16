@@ -1,19 +1,19 @@
 <?php
+// DTO (Model) - Capa de datos: representa un registro de la tabla 'roles'.
+// Autor: Integrante 1
+// Responsabilidad: únicamente contener atributos, constructor, getters y setters.
 
 class Rol
 {
     private ?int $idRol;
     private string $nombre;
-    private string $descripcion;
 
     public function __construct(
         ?int $idRol = null,
-        string $nombre = '',
-        string $descripcion = ''
+        string $nombre = ''
     ) {
         $this->idRol = $idRol;
         $this->nombre = $nombre;
-        $this->descripcion = $descripcion;
     }
 
     public function getIdRol(): ?int
@@ -34,15 +34,5 @@ class Rol
     public function setNombre(string $nombre): void
     {
         $this->nombre = $nombre;
-    }
-
-    public function getDescripcion(): string
-    {
-        return $this->descripcion;
-    }
-
-    public function setDescripcion(string $descripcion): void
-    {
-        $this->descripcion = $descripcion;
     }
 }

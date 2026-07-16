@@ -1,15 +1,15 @@
 <?php
+$tituloPagina = "Clientes";
+$pageStyles = "assets/css/clientes.css";
 require_once "views/layouts/header.php";
 ?>
 
-<div class="container" style="margin-top: var(--space-6); margin-bottom: var(--space-10);">
+<!-- Autor: Zhunaula Kevin / Integrante 1 -->
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-6);">
-        <div>
-            <h1 style="font-size: var(--font-size-2xl); font-weight: var(--font-bold); color: var(--text-primary); margin: 0;">
-                Gestión de Clientes
-            </h1>
-        </div>
+<main class="content">
+
+    <div class="page-header">
+        <h1>Gestión de Clientes</h1>
         <button type="button" class="btn btn-primary" id="btnToggleFormulario">
             <i class="fas fa-user-plus"></i> <span id="btnText">Nuevo Cliente</span>
         </button>
@@ -17,78 +17,65 @@ require_once "views/layouts/header.php";
 
     <?php if (isset($_GET['status'])): ?>
         <?php
-        $alertClass = ($_GET['status'] == 'success' || $_GET['status'] == 'updated') ? 'alert-success' : 'alert-danger';
+        $mensajes = [
+            'success'             => ['tipo' => 'success', 'texto' => 'Cliente registrado correctamente.'],
+            'updated'             => ['tipo' => 'success', 'texto' => 'Cliente actualizado correctamente.'],
+            'deleted'             => ['tipo' => 'success', 'texto' => 'Cliente desactivado correctamente.'],
+            'campos_vacios'       => ['tipo' => 'danger',  'texto' => 'Completa todos los campos obligatorios.'],
+            'correo_invalido'     => ['tipo' => 'danger',  'texto' => 'Ingresa un correo electrónico válido.'],
+            'correo_existente'    => ['tipo' => 'danger',  'texto' => 'Ese correo ya está registrado.'],
+            'username_existente'  => ['tipo' => 'danger',  'texto' => 'Ese nombre de usuario ya está en uso.'],
+            'password_corta'      => ['tipo' => 'danger',  'texto' => 'La contraseña debe tener al menos 6 caracteres.'],
+            'no_encontrado'       => ['tipo' => 'danger',  'texto' => 'El cliente solicitado no existe.'],
+            'error'               => ['tipo' => 'danger',  'texto' => 'Ocurrió un error al procesar la solicitud.'],
+        ];
+        $estado = $mensajes[$_GET['status']] ?? null;
         ?>
-        <div class="alert <?= $alertClass ?>" style="display: flex; justify-content: space-between; align-items: center;">
-            <span>
-                <?php
-                if ($_GET['status'] == 'success') echo "Cliente registrado correctamente.";
-                if ($_GET['status'] == 'updated') echo "Cliente actualizado correctamente.";
-                if ($_GET['status'] == 'deleted') echo "Cliente eliminado lógicamente del sistema.";
-                ?>
-            </span>
-            <button type="button" onclick="this.parentElement.style.display='none';" style="background: transparent; border: none; cursor: pointer; color: inherit; font-weight: bold;">&times;</button>
-        </div>
+        <?php if ($estado): ?>
+            <div class="alert alert-<?= $estado['tipo'] ?>"><?= htmlspecialchars($estado['texto']) ?></div>
+        <?php endif; ?>
     <?php endif; ?>
 
-    <div id="seccionFormulario" class="card hidden" style="margin-bottom: var(--space-7); border: 1px solid var(--border-color);">
-        <h3 class="card-title" style="font-size: var(--font-size-lg); color: var(--color-primary); display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-user-plus"></i> Registrar Nuevo Cliente
-        </h3>
-        <p style="color: var(--text-secondary); font-size: var(--font-size-sm); margin-bottom: var(--space-5);">
+    <div id="seccionFormulario" class="card hidden clientes-form-card">
+        <h3 class="card-title"><i class="fas fa-user-plus"></i> Registrar Nuevo Cliente</h3>
+        <p class="clientes-form-hint">
             Los datos se guardarán simultáneamente en las tablas 'usuarios' y 'clientes'.
         </p>
 
         <form action="index.php?controller=cliente&action=registrarCliente" method="POST">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4);">
-
+            <div class="clientes-form-grid">
                 <div class="form-group">
-                    <label>Nombre Completo</label>
-                    <input type="text" name="nombre" placeholder="Ej. Juan Pérez" required>
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Correo Electrónico</label>
-                    <input type="email" name="correo" placeholder="juan@ejemplo.com" required>
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" placeholder="Ej. Pérez" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Contraseña de Acceso</label>
-                    <input type="password" name="contrasena" placeholder="Mínimo 6 caracteres" required>
+                    <label for="correo">Correo electrónico</label>
+                    <input type="email" id="correo" name="correo" placeholder="juan@ejemplo.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Teléfono</label>
-                    <input type="text" name="telefono" placeholder="Ej. 0999999999">
+                    <label for="celular">Celular</label>
+                    <input type="text" id="celular" name="celular" placeholder="Ej. 0999999999" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Género</label>
-                    <select name="genero">
-                        <option value="" selected disabled>Seleccione...</option>
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Otro">Otro</option>
-                    </select>
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" placeholder="Nombre de usuario" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Fecha de Nacimiento</label>
-                    <input type="date" name="fecha_nacimiento">
-                </div>
-
-                <div class="form-group" style="grid-column: span 1;">
-                    <label>Dirección</label>
-                    <input type="text" name="direccion" placeholder="Calle, Ciudad">
+                    <label for="password">Contraseña de acceso</label>
+                    <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required>
                 </div>
             </div>
 
-            <div class="form-group" style="margin-top: var(--space-4);">
-                <label>Observaciones (Alergias, Tipo de Piel, etc.)</label>
-                <textarea name="observaciones" rows="3" placeholder="Paciente con piel sensible, alérgica a ciertos aceites..."></textarea>
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-5); padding-top: var(--space-4); border-top: 1px solid var(--border-color);">
+            <div class="clientes-form-actions">
                 <button type="button" class="btn btn-secondary" id="btnCancelarFormulario">Cancelar</button>
                 <button type="submit" class="btn btn-success">
                     <i class="fas fa-save"></i> Guardar Cliente
@@ -98,21 +85,30 @@ require_once "views/layouts/header.php";
     </div>
 
     <div class="card">
-        <h3 class="card-title" style="font-size: var(--font-size-lg); margin-bottom: var(--space-5); display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-table"></i> Lista de Clientes Registrados
-        </h3>
+        <form action="index.php" method="GET" class="clientes-buscador">
+            <input type="hidden" name="controller" value="cliente">
+            <input type="hidden" name="action" value="listar">
+            <input type="text" name="termino" placeholder="Buscar por nombre, apellido, correo o usuario..."
+                value="<?= htmlspecialchars($_GET['termino'] ?? '') ?>">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+            <?php if (!empty($_GET['termino'])): ?>
+                <a href="index.php?controller=cliente&action=listar" class="btn btn-secondary">Limpiar</a>
+            <?php endif; ?>
+        </form>
+    </div>
 
-        <div style="overflow-x: auto;">
+    <div class="card">
+        <h3 class="card-title"><i class="fas fa-table"></i> Lista de Clientes Registrados</h3>
+
+        <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
+                        <th>Nombre completo</th>
                         <th>Correo</th>
-                        <th>Teléfono</th>
-                        <th>Género</th>
-                        <th>Fecha Nacimiento</th>
-                        <th>Dirección</th>
-                        <th>Observaciones</th>
+                        <th>Celular</th>
+                        <th>Usuario</th>
+                        <th>Estado</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -120,30 +116,26 @@ require_once "views/layouts/header.php";
                     <?php if (!empty($clientes)): ?>
                         <?php foreach ($clientes as $c): ?>
                             <tr>
-                                <td><strong><?= htmlspecialchars($c->getNombre()) ?></strong></td>
+                                <td><strong><?= htmlspecialchars($c->getNombre() . ' ' . $c->getApellido()) ?></strong></td>
                                 <td><?= htmlspecialchars($c->getCorreo()) ?></td>
-                                <td><?= htmlspecialchars($c->getTelefono() ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($c->getGenero() ?? 'No especificado') ?></td>
-                                <td><?= htmlspecialchars($c->getFechaNacimiento() ?? 'N/A') ?></td>
-                                <td><?= htmlspecialchars($c->getDireccion() ?? 'N/A') ?></td>
+                                <td><?= htmlspecialchars($c->getCelular()) ?></td>
+                                <td><?= htmlspecialchars($c->getUsername()) ?></td>
                                 <td>
-                                    <span style="color: var(--text-secondary); font-size: var(--font-size-xs);">
-                                        <?= htmlspecialchars($c->getObservaciones() ?? 'Sin notas') ?>
-                                    </span>
+                                    <?php if ($c->getEstado()): ?>
+                                        <span class="badge badge-success">Activo</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-danger">Inactivo</span>
+                                    <?php endif; ?>
                                 </td>
                                 <td class="text-center">
-                                    <div style="display: flex; gap: 8px; justify-content: center;">
+                                    <div class="clientes-acciones">
                                         <a href="index.php?controller=cliente&action=editar&id=<?= $c->getIdCliente() ?>"
-                                            class="btn"
-                                            style="background: var(--color-warning); color: white; padding: 6px 12px; font-size: var(--font-size-sm);"
-                                            title="Editar Cliente">
+                                            class="btn btn-warning-soft" title="Editar Cliente">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="index.php?controller=cliente&action=eliminar&id=<?= $c->getIdCliente() ?>"
-                                            class="btn btn-danger"
-                                            style="padding: 6px 12px; font-size: var(--font-size-sm);"
-                                            onclick="return confirm('¿Estás seguro de que deseas desactivar este cliente?');"
-                                            title="Eliminar Cliente">
+                                            class="btn btn-danger" title="Eliminar Cliente"
+                                            onclick="return confirm('¿Estás seguro de que deseas desactivar este cliente?');">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </div>
@@ -152,7 +144,7 @@ require_once "views/layouts/header.php";
                         <?php endforeach; ?>
                     <?php else: ?>
                         <tr>
-                            <td colspan="8" class="text-center" style="padding: var(--space-6); color: var(--text-muted);">
+                            <td colspan="6" class="text-center">
                                 No hay clientes registrados en el sistema actualmente.
                             </td>
                         </tr>
@@ -161,9 +153,11 @@ require_once "views/layouts/header.php";
             </table>
         </div>
     </div>
-</div>
+</main>
 
+</div>
+</div>
 <?php
-$pageScript = "assets/js/admin/cliente_crud.js";
+$pageScript = "assets/js/admin/clientes.js";
 require_once "views/layouts/footer.php";
 ?>

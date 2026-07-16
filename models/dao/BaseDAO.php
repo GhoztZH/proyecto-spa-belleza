@@ -1,9 +1,10 @@
 <?php
+// DAO - Capa de acceso a datos: clase base abstracta de la que heredan
+// todos los DAO del sistema. Centraliza la conexión PDO y el manejo de
+// transacciones para evitar duplicar este código en cada DAO.
 
 require_once "config/Database.php";
 
-// Clase base para el acceso a la base de datos
-// Se debe heredar de esta clase en los DAOs creados 
 abstract class BaseDAO
 {
     protected PDO $conexion;

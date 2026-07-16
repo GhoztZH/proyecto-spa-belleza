@@ -1,34 +1,49 @@
 <?php
+// DTO (Model) - Capa de datos: representa un registro de la tabla 'usuarios'.
+// Autor: Integrante 1
+// Responsabilidad: únicamente contener atributos, constructor, getters y setters.
 
 class Usuario
 {
     private ?int $idUsuario;
-    private string $username;
-    private string $correo;
-    private string $password;
-    private string $telefono;
-    private bool $estado;
-    private string $fechaRegistro;
     private int $idRol;
+    private string $nombre;
+    private string $apellido;
+    private string $correo;
+    private string $celular;
+    private string $username;
+    private string $password;
+    private bool $estado;
+    private string $fechaCreacion;
+
+    // Campo de solo lectura, útil para mostrar el rol en listados sin
+    // necesidad de una consulta adicional (se llena mediante JOIN en el DAO).
+    private string $nombreRol;
 
     public function __construct(
         ?int $idUsuario = null,
-        string $username = '',
+        int $idRol = 0,
+        string $nombre = '',
+        string $apellido = '',
         string $correo = '',
+        string $celular = '',
+        string $username = '',
         string $password = '',
-        string $telefono = '',
         bool $estado = true,
-        string $fechaRegistro = '',
-        int $idRol = 0
+        string $fechaCreacion = '',
+        string $nombreRol = ''
     ) {
         $this->idUsuario = $idUsuario;
-        $this->username = $username;
-        $this->correo = $correo;
-        $this->password = $password;
-        $this->telefono = $telefono;
-        $this->estado = $estado;
-        $this->$fechaRegistro = '';
         $this->idRol = $idRol;
+        $this->nombre = $nombre;
+        $this->apellido = $apellido;
+        $this->correo = $correo;
+        $this->celular = $celular;
+        $this->username = $username;
+        $this->password = $password;
+        $this->estado = $estado;
+        $this->fechaCreacion = $fechaCreacion;
+        $this->nombreRol = $nombreRol;
     }
 
     public function getIdUsuario(): ?int
@@ -41,14 +56,34 @@ class Usuario
         $this->idUsuario = $idUsuario;
     }
 
-    public function getUsername(): string
+    public function getIdRol(): int
     {
-        return $this->username;
+        return $this->idRol;
     }
 
-    public function setUsername(string $username): void
+    public function setIdRol(int $idRol): void
     {
-        $this->username = $username;
+        $this->idRol = $idRol;
+    }
+
+    public function getNombre(): string
+    {
+        return $this->nombre;
+    }
+
+    public function setNombre(string $nombre): void
+    {
+        $this->nombre = $nombre;
+    }
+
+    public function getApellido(): string
+    {
+        return $this->apellido;
+    }
+
+    public function setApellido(string $apellido): void
+    {
+        $this->apellido = $apellido;
     }
 
     public function getCorreo(): string
@@ -61,19 +96,29 @@ class Usuario
         $this->correo = $correo;
     }
 
+    public function getCelular(): string
+    {
+        return $this->celular;
+    }
+
+    public function setCelular(string $celular): void
+    {
+        $this->celular = $celular;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): void
+    {
+        $this->username = $username;
+    }
+
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    public function getTelefono(): string
-    {
-        return $this->telefono;
-    }
-
-    public function setTelefono(string $telefono): void
-    {
-        $this->telefono = $telefono;
     }
 
     public function setPassword(string $password): void
@@ -91,23 +136,23 @@ class Usuario
         $this->estado = $estado;
     }
 
-    public function getFechaRegistro(): string
+    public function getFechaCreacion(): string
     {
-        return $this->fechaRegistro;
+        return $this->fechaCreacion;
     }
 
-    public function setFechaRegistro(string $fechaRegistro): void
+    public function setFechaCreacion(string $fechaCreacion): void
     {
-        $this->fechaRegistro = $fechaRegistro;
+        $this->fechaCreacion = $fechaCreacion;
     }
 
-    public function getIdRol(): int
+    public function getNombreRol(): string
     {
-        return $this->idRol;
+        return $this->nombreRol;
     }
 
-    public function setIdRol(int $idRol): void
+    public function setNombreRol(string $nombreRol): void
     {
-        $this->idRol = $idRol;
+        $this->nombreRol = $nombreRol;
     }
 }

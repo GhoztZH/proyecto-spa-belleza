@@ -297,6 +297,25 @@
 
 
 /*==================================================
+    ENCABEZADO DE PÁGINA (compartido por los CRUD)
+==================================================*/
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+}
+
+.page-header h1 {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-primary);
+    margin: 0;
+}
+
+
+/*==================================================
     FORMULARIOS
 ==================================================*/
 
@@ -320,33 +339,6 @@
     box-shadow: var(--shadow-sm);
 
     overflow: auto;
-
-}
-
-
-/*==================================================
-    LOGIN ADMIN
-==================================================*/
-
-.login-page {
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    min-height: 100vh;
-
-    background: var(--bg-body);
-
-}
-
-.login-card {
-
-    width: 100%;
-
-    max-width: 420px;
 
 }
 

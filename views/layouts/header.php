@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Panel Administrativo | Spa & Belleza</title>
+    <title><?= isset($tituloPagina) ? htmlspecialchars($tituloPagina) . ' | ' : '' ?>Panel Administrativo | Spa & Belleza</title>
 
     <!-- Google Fonts -->
 
@@ -52,6 +52,9 @@
                         <a href="index.php?controller=admin&action=dashboard" class="nav-link-item">
                             <i class="fa-solid fa-house"></i> Inicio
                         </a>
+                        <a href="index.php?controller=usuario&action=listar" class="nav-link-item">
+                            <i class="fa-solid fa-user-gear"></i> Usuarios
+                        </a>
                         <a href="#" class="nav-link-item">
                             <i class="fa-solid fa-calendar-check"></i> Citas
                         </a>
@@ -70,7 +73,13 @@
                 <div class="navbar-user">
                     <span>
                         <i class="fa-solid fa-user-shield"></i>
-                        Administrador
+                        <?php
+                        // Muestra el nombre del usuario autenticado (guardado en sesión por AuthController).
+                        $usuarioSesion = $_SESSION['usuario'] ?? null;
+                        echo $usuarioSesion
+                            ? htmlspecialchars($usuarioSesion['nombre'] . ' ' . $usuarioSesion['apellido'])
+                            : 'Invitado';
+                        ?>
                     </span>
 
                     <a href="index.php?controller=auth&action=logout" class="btn btn-danger">

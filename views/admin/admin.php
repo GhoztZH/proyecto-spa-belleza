@@ -13,13 +13,19 @@
     <section class="module-section">
         <h3>Administración</h3>
         <div class="modules-grid">
-            <article class="card module-card" data-url="?controller=admin&action=clientes">
+            <article class="card module-card" data-url="?controller=usuario&action=listar">
+                <i class="fa-solid fa-user-gear module-icon"></i>
+                <h4>Usuarios</h4>
+                <p>Administrar todas las cuentas del sistema.</p>
+            </article>
+
+            <article class="card module-card" data-url="?controller=cliente&action=listar">
                 <i class="fa-solid fa-users module-icon"></i>
                 <h4>Clientes</h4>
                 <p>Gestionar información de los clientes.</p>
             </article>
 
-            <article class="card module-card" data-url="?controller=admin&action=empleados">
+            <article class="card module-card" data-url="?controller=empleado&action=listar">
                 <i class="fa-solid fa-user-tie module-icon"></i>
                 <h4>Empleados</h4>
                 <p>Administrar la información del personal.</p>

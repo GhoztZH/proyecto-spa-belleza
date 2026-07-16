@@ -1,33 +1,23 @@
 <?php
-// autor: Zhunaula Kevin
+// CONTROLLER - Punto de entrada del panel administrativo. El listado y
+// búsqueda de Clientes/Empleados vive en sus propios Controllers
+// (ClienteController, EmpleadoController) para respetar una única
+// responsabilidad por Controller; este solo sirve el Dashboard.
+// Autor: Zhunaula Kevin / Integrante 1
+
+require_once "controllers/SesionHelper.php";
 
 class AdminController
 {
-    // Acción para mostrar el Dashboard principal 
+    public function __construct()
+    {
+        // El Dashboard es visible para Administrador y Colaborador.
+        SesionHelper::requerirRol(['Administrador', 'Colaborador']);
+    }
+
     public function dashboard()
     {
-        require_once "views/admin/admin.php"; 
+        $mostrarMenu = false;
+        require_once "views/admin/admin.php";
     }
-
-    public function clientes()
-    {
-        // Activamos el menú dinámico para esta vista interna
-        $mostrarMenu = true;
-
-        $clientes = 
-
-        // Cargamos la vista del módulo de usuarios
-        require_once "views/admin/clientes_crud.php";
-    }
-
-    // Acción para mostrar el módulo de Usuarios (Clientes, Empleados, Roles)
-    public function empleados()
-    {
-        // Activamos el menú dinámico para esta vista interna
-        $mostrarMenu = true;
-
-        // Cargamos la vista del módulo de usuarios
-        require_once "views/admin/empleados.php";
-    }
-    
 }
