@@ -37,7 +37,7 @@
     <section class="module-section">
         <h3>Operación del Spa</h3>
         <div class="modules-grid">
-            <article class="card module-card" >
+            <article class="card module-card" data-url="?controller=servicio&action=listar">
                 <i class="fa-solid fa-spa module-icon"></i>
                 <h4>Servicios</h4>
                 <p>Administrar tratamientos y servicios.</p>

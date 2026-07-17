@@ -9,7 +9,7 @@ require_once "views/layouts/header_publico.php";
     <section class="hero">
         <div class="hero-content">
             <h1>
-                Spa & Belleza
+                Delux Spa
             </h1>
             <p>
                 Encuentra productos profesionales para el cuidado

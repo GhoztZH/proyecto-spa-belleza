@@ -1,5 +1,5 @@
 <footer class="footer">
-    <p>&copy; <?= date('Y'); ?> Spa & Belleza. Todos los derechos reservados.</p>
+    <p>&copy; <?= date('Y'); ?> Delux Spa. Todos los derechos reservados.</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"></script>

@@ -2,8 +2,7 @@
 // Autor: Maria Belen Cassiaux Guerrero
 require_once "models/dao/Citas/CitaDAO.php";
 require_once "models/dto/cita/Cita.php";
-require_once "models/dao/Citas/ServicioDAO.php";
-require_once "models/dto/cita/Servicio.php";
+require_once "models/dao/Servicios/ServicioDAO.php";
 require_once "controllers/SesionHelper.php";
 require_once "models/dao/usuarios/ClienteDAO.php";
 

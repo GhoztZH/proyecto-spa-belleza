@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><?= isset($tituloPagina) ? htmlspecialchars($tituloPagina) . ' | ' : '' ?>Spa & Belleza</title>
+    <title><?= isset($tituloPagina) ? htmlspecialchars($tituloPagina) . ' | ' : '' ?>Delux Spa</title>
 
     <!-- Google Fonts -->
 
@@ -40,10 +40,12 @@
 <body>
 
     <nav class="navbar">
-        <a href="index.php?controller=sitio&action=inicio" class="logo">Spa & Belleza</a>
+        <a href="index.php?controller=sitio&action=inicio" class="logo">Delux Spa</a>
 
         <ul class="nav-menu">
             <li><a href="index.php?controller=sitio&action=inicio">Inicio</a></li>
+            <li><a href="index.php?controller=sitio&action=servicios">Servicios</a></li>
+            <li><a href="index.php?controller=clienteProd&action=catalogo">Productos</a></li>
             <?php if (isset($_SESSION['usuario'])): ?>
                 <?php if (in_array($_SESSION['usuario']['nombre_rol'], ['Administrador', 'Colaborador'], true)): ?>
                     <li><a href="index.php?controller=admin&action=dashboard">Panel Administrativo</a></li>

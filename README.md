@@ -1,4 +1,4 @@
-# Centro de Belleza y Spa - Sistema de Gestión
+# Delux Spa - Sistema de Gestión
 
 Proyecto universitario desarrollado en PHP 8 con arquitectura **MVC**, patrón **DAO**, **DTO** y **Front Controller**, sin frameworks (PHP puro + PDO + JavaScript Vanilla).
 
@@ -31,11 +31,17 @@ Sistema integrado por el equipo (Grupo 4): Autenticación y Usuarios, Empleados,
 - Correo: `admin@spabelleza.com`
 - Contraseña: `admin123`
 
+**Empleados de prueba (Colaboradores, para asignar citas):**
+- Usuarios: `vrojas` (Cosmetóloga), `dparedes` (Estilista), `asalazar` (Masajista Terapéutico)
+- Contraseña de los tres: `empleado123`
+
 ## 🗺️ Mapa de rutas principales
 
 | Ruta                                            | Descripción                              |
 |--------------------------------------------------|-------------------------------------------|
 | `?controller=sitio&action=inicio`                | Página de inicio (pública)                |
+| `?controller=sitio&action=servicios`             | Catálogo público de Servicios             |
+| `?controller=servicio&action=listar`             | CRUD de Servicios (Administrador)         |
 | `?controller=auth&action=login`                  | Iniciar sesión                            |
 | `?controller=auth&action=registro`               | Registro de clientes                      |
 | `?controller=auth&action=logout`                 | Cerrar sesión                             |
@@ -71,5 +77,6 @@ assets/css/                        CSS específicos por vista (login, usuarios, 
 ## 📝 Notas de integración
 
 - Las tablas `ventas` y `detalle_venta` del script SQL quedaron sin uso: el flujo de compras y el reporte de ventas se implementaron sobre `compras` / `detalle_compra`. Se dejaron documentadas en el propio script por si se necesitan más adelante.
-- El módulo de **Servicios** (CRUD administrativo) aún no tiene una vista propia; los servicios se administran únicamente desde el script SQL. El enlace "Servicios" del panel queda inactivo hasta que se implemente.
+- El módulo de **Servicios** está completamente integrado: CRUD administrativo (`?controller=servicio&action=listar`, con imagen, filtros y baja lógica), catálogo público (`?controller=sitio&action=servicios`) y sección de servicios en el Home con acceso al flujo de citas.
+- Se unificó el acceso a datos de servicios en `models/dao/Servicios/ServicioDAO.php` (los módulos de Citas y del sitio público lo reutilizan; se eliminó el DAO duplicado que existía en `models/dao/Citas/`).
 

@@ -319,6 +319,21 @@ VALUES (
 INSERT INTO empleados (id_usuario, cargo, fecha_ingreso)
 VALUES (LAST_INSERT_ID(), 'Administrador General', '2026-01-15');
 
+-- =========================================================================
+-- DATOS DE PRUEBA: Empleados (Colaboradores)
+-- Permiten asignar un responsable a las citas desde la gestión de Citas.
+-- Contraseña en texto plano de los tres usuarios: empleado123
+-- =========================================================================
+INSERT INTO usuarios (id_rol, nombre, apellido, correo, celular, username, password, estado) VALUES
+(2, 'Valeria', 'Rojas',   'valeria.rojas@deluxspa.com',   '0987111222', 'vrojas',   '$2y$10$mgUZBQqTkXSqKMV1lExpbOdGjrwfPzOsAnXdkLWxu/0PUNjKEka5a', 1),
+(2, 'Daniela', 'Paredes', 'daniela.paredes@deluxspa.com', '0987333444', 'dparedes', '$2y$10$mgUZBQqTkXSqKMV1lExpbOdGjrwfPzOsAnXdkLWxu/0PUNjKEka5a', 1),
+(2, 'Andrés',  'Salazar', 'andres.salazar@deluxspa.com',  '0987555666', 'asalazar', '$2y$10$mgUZBQqTkXSqKMV1lExpbOdGjrwfPzOsAnXdkLWxu/0PUNjKEka5a', 1);
+
+INSERT INTO empleados (id_usuario, cargo, fecha_ingreso) VALUES
+((SELECT id_usuario FROM usuarios WHERE username = 'vrojas'),   'Cosmetóloga',            '2026-02-01'),
+((SELECT id_usuario FROM usuarios WHERE username = 'dparedes'), 'Estilista',              '2026-02-15'),
+((SELECT id_usuario FROM usuarios WHERE username = 'asalazar'), 'Masajista Terapéutico',  '2026-03-01');
+
 
 -- Datos de prueba: Categorías de productos
 

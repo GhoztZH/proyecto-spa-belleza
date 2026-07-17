@@ -29,6 +29,7 @@ $rutasControllers = [
     'empleado'     => ['clase' => 'EmpleadoController',    'ruta' => 'controllers/admin/EmpleadoController.php'],
     'cliente'      => ['clase' => 'ClienteController',     'ruta' => 'controllers/admin/ClienteController.php'],
     'citas'        => ['clase' => 'CitasController',       'ruta' => 'controllers/admin/CitasController.php'],
+    'servicio'     => ['clase' => 'ServicioController',    'ruta' => 'controllers/admin/ServicioController.php'],
     'producto'     => ['clase' => 'ProductoController',    'ruta' => 'controllers/admin/ProductoController.php'],
     'venta'        => ['clase' => 'VentaController',       'ruta' => 'controllers/admin/VentaController.php'],
 

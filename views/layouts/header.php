@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title><?= isset($tituloPagina) ? htmlspecialchars($tituloPagina) . ' | ' : '' ?>Panel Administrativo | Spa & Belleza</title>
+    <title><?= isset($tituloPagina) ? htmlspecialchars($tituloPagina) . ' | ' : '' ?>Panel Administrativo | Delux Spa</title>
 
     <!-- Google Fonts -->
 
@@ -58,7 +58,7 @@
                         <a href="?controller=citas&action=index" class="nav-link-item">
                             <i class="fa-solid fa-calendar-check"></i> Citas
                         </a>
-                        <a href="#" class="nav-link-item">
+                        <a href="?controller=servicio&action=listar" class="nav-link-item">
                             <i class="fa-solid fa-spa"></i> Servicios
                         </a>
                         <a href="?controller=producto&action=listar" class="nav-link-item">
