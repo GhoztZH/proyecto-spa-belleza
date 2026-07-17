@@ -5,17 +5,6 @@
 --              usuarios, roles, empleados, clientes, servicios,
 --              productos, citas y ventas.
 --
--- NOTA DE ACTUALIZACIÓN (Módulo Integrante 1 - Autenticación y Usuarios):
--- Se reestructuraron las tablas roles, usuarios, empleados y clientes
--- para eliminar la redundancia de datos personales. Toda la información
--- personal y de autenticación ahora se centraliza en "usuarios"; las
--- tablas "empleados" y "clientes" solo contienen los atributos propios
--- de cada rol y se relacionan 1:1 con "usuarios".
--- =========================================================================
-
--- Fuerza el charset de la sesión de importación a utf8mb4. Sin esta línea,
--- algunos clientes (mysql CLI, versiones antiguas de phpMyAdmin) usan latin1
--- por defecto y corrompen los acentos/ñ de los datos semilla al importar.
 SET NAMES utf8mb4;
 
 CREATE DATABASE IF NOT EXISTS spa_belleza
@@ -193,60 +182,6 @@ CREATE INDEX idx_citas_cliente  ON citas(id_cliente);
 CREATE INDEX idx_citas_empleado ON citas(id_empleado);
 CREATE INDEX idx_citas_servicio ON citas(id_servicio);
 CREATE INDEX idx_citas_fecha    ON citas(fecha);
-
--- =========================================================================
--- NOTA DE INTEGRACIÓN: las tablas "ventas" y "detalle_venta" de abajo NO
--- están siendo utilizadas por ningún módulo actualmente. El flujo de
--- carrito/compra del cliente (CarritoController + CompraDAO) y el reporte
--- administrativo de ventas (VentaController + VentaDAO) se implementaron
--- sobre un par de tablas distinto: "compras" y "detalle_compra" (ver más
--- abajo). Se dejan "ventas"/"detalle_venta" sin eliminar por si algún
--- integrante las necesita; de lo contrario pueden eliminarse en el futuro.
--- =========================================================================
-
--- =========================================================================
--- TABLA: ventas
--- Propósito: Cabecera de una transacción de venta de productos realizada
---            por un cliente.
--- Relación:  FK hacia clientes. Es referenciada por detalle_venta.
--- =========================================================================
-CREATE TABLE ventas (
-    id_venta     INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente   INT NOT NULL,
-    fecha_venta  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    total        DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-    metodo_pago  VARCHAR(50) NOT NULL,
-    estado       ENUM('Completada','Cancelada') NOT NULL DEFAULT 'Completada',
-    observacion  VARCHAR(255) NULL,
-    CONSTRAINT fk_ventas_cliente
-        FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
-        ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
-
-CREATE INDEX idx_ventas_cliente ON ventas(id_cliente);
-
--- =========================================================================
--- TABLA: detalle_venta
--- Propósito: Líneas de detalle (productos, cantidad, precio) de cada venta.
--- Relación:  FK hacia ventas (cabecera) y productos (ítem vendido).
--- =========================================================================
-CREATE TABLE detalle_venta (
-    id_detalle_venta  INT AUTO_INCREMENT PRIMARY KEY,
-    id_venta          INT NOT NULL,
-    id_producto       INT NOT NULL,
-    cantidad          INT NOT NULL,
-    precio_unitario   DECIMAL(10,2) NOT NULL,
-    subtotal          DECIMAL(10,2) NOT NULL,
-    CONSTRAINT fk_detalle_venta_venta
-        FOREIGN KEY (id_venta) REFERENCES ventas(id_venta)
-        ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT fk_detalle_venta_producto
-        FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
-        ON UPDATE CASCADE ON DELETE RESTRICT
-) ENGINE=InnoDB;
-
-CREATE INDEX idx_detalle_venta_venta    ON detalle_venta(id_venta);
-CREATE INDEX idx_detalle_venta_producto ON detalle_venta(id_producto);
 
 -- =========================================================================
 -- TABLA: compras
