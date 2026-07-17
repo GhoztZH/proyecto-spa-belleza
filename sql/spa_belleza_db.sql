@@ -13,6 +13,11 @@
 -- de cada rol y se relacionan 1:1 con "usuarios".
 -- =========================================================================
 
+-- Fuerza el charset de la sesión de importación a utf8mb4. Sin esta línea,
+-- algunos clientes (mysql CLI, versiones antiguas de phpMyAdmin) usan latin1
+-- por defecto y corrompen los acentos/ñ de los datos semilla al importar.
+SET NAMES utf8mb4;
+
 CREATE DATABASE IF NOT EXISTS spa_belleza
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
@@ -190,6 +195,16 @@ CREATE INDEX idx_citas_servicio ON citas(id_servicio);
 CREATE INDEX idx_citas_fecha    ON citas(fecha);
 
 -- =========================================================================
+-- NOTA DE INTEGRACIÓN: las tablas "ventas" y "detalle_venta" de abajo NO
+-- están siendo utilizadas por ningún módulo actualmente. El flujo de
+-- carrito/compra del cliente (CarritoController + CompraDAO) y el reporte
+-- administrativo de ventas (VentaController + VentaDAO) se implementaron
+-- sobre un par de tablas distinto: "compras" y "detalle_compra" (ver más
+-- abajo). Se dejan "ventas"/"detalle_venta" sin eliminar por si algún
+-- integrante las necesita; de lo contrario pueden eliminarse en el futuro.
+-- =========================================================================
+
+-- =========================================================================
 -- TABLA: ventas
 -- Propósito: Cabecera de una transacción de venta de productos realizada
 --            por un cliente.
@@ -234,6 +249,49 @@ CREATE INDEX idx_detalle_venta_venta    ON detalle_venta(id_venta);
 CREATE INDEX idx_detalle_venta_producto ON detalle_venta(id_producto);
 
 -- =========================================================================
+-- TABLA: compras
+-- Propósito: Cabecera de una compra de productos realizada por un cliente
+--            desde el carrito (CarritoController::confirmar). Es la tabla
+--            que efectivamente consultan CompraDAO, VentaDAO y ProductoDAO.
+-- Relación:  FK hacia usuarios. Es referenciada por detalle_compra.
+-- =========================================================================
+CREATE TABLE compras (
+    id_compra   INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario  INT NOT NULL,
+    fecha       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    total       DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    estado      ENUM('Pagada','Cancelada') NOT NULL DEFAULT 'Pagada',
+    CONSTRAINT fk_compras_usuario
+        FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_compras_usuario ON compras(id_usuario);
+
+-- =========================================================================
+-- TABLA: detalle_compra
+-- Propósito: Líneas de detalle (productos, cantidad, precio) de cada compra.
+-- Relación:  FK hacia compras (cabecera) y productos (ítem comprado).
+-- =========================================================================
+CREATE TABLE detalle_compra (
+    id_detalle       INT AUTO_INCREMENT PRIMARY KEY,
+    id_compra        INT NOT NULL,
+    id_producto      INT NOT NULL,
+    cantidad         INT NOT NULL,
+    precio_unitario  DECIMAL(10,2) NOT NULL,
+    subtotal         DECIMAL(10,2) NOT NULL,
+    CONSTRAINT fk_detalle_compra_compra
+        FOREIGN KEY (id_compra) REFERENCES compras(id_compra)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fk_detalle_compra_producto
+        FOREIGN KEY (id_producto) REFERENCES productos(id_producto)
+        ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE=InnoDB;
+
+CREATE INDEX idx_detalle_compra_compra    ON detalle_compra(id_compra);
+CREATE INDEX idx_detalle_compra_producto  ON detalle_compra(id_producto);
+
+-- =========================================================================
 -- SEED: Roles del sistema (fijos, no editables desde CRUD)
 -- =========================================================================
 INSERT INTO roles (nombre) VALUES
@@ -262,7 +320,7 @@ INSERT INTO empleados (id_usuario, cargo, fecha_ingreso)
 VALUES (LAST_INSERT_ID(), 'Administrador General', '2026-01-15');
 
 
---Datos de pruba Categoria productos
+-- Datos de prueba: Categorías de productos
 
 INSERT INTO categorias_producto (nombre_categoria, descripcion, estado) VALUES
 ('Cabello', 'Shampoo, acondicionadores y tratamientos capilares',1),
@@ -270,3 +328,33 @@ INSERT INTO categorias_producto (nombre_categoria, descripcion, estado) VALUES
 ('Corporal', 'Cremas, exfoliantes y aceites corporales',1),
 ('Masajes', 'Aceites y productos para terapias de masaje',1),
 ('Maquillaje', 'Productos cosméticos y belleza',1);
+
+-- =========================================================================
+-- SEED: Categorías y catálogo de Servicios
+-- Necesario para el módulo de Citas: CitasController::crear() muestra por
+-- separado los "Servicios" (categoría 1) y "Tratamientos" (categoría 2).
+-- =========================================================================
+INSERT INTO categorias_servicio (nombre_categoria, descripcion, estado) VALUES
+('Servicios', 'Servicios generales de spa y belleza', 1),
+('Tratamientos', 'Tratamientos especializados de belleza', 1);
+
+INSERT INTO servicios (id_categoria_servicio, nombre, descripcion, precio, disponibilidad) VALUES
+(1, 'Manicure clásico', 'Cuidado y esmaltado de uñas de manos', 12.00, 1),
+(1, 'Pedicure spa', 'Cuidado completo de pies con exfoliación', 15.00, 1),
+(1, 'Corte de cabello', 'Corte y peinado profesional', 10.00, 1),
+(1, 'Masaje relajante', 'Masaje corporal de 50 minutos', 35.00, 1),
+(2, 'Tratamiento facial hidratante', 'Limpieza profunda e hidratación facial', 25.00, 1),
+(2, 'Tratamiento capilar reparador', 'Restauración capilar con keratina', 30.00, 1),
+(2, 'Depilación con cera', 'Depilación corporal con cera tibia', 18.00, 1);
+
+-- =========================================================================
+-- SEED: Catálogo inicial de Productos
+-- =========================================================================
+INSERT INTO productos (id_categoria_producto, nombre, descripcion, precio, stock, disponibilidad, imagen) VALUES
+(1, 'Shampoo Nutritivo 400ml', 'Shampoo con keratina para cabello dañado', 8.50, 40, 1, ''),
+(1, 'Acondicionador Reparador 400ml', 'Acondicionador hidratante para cabello seco', 8.50, 35, 1, ''),
+(2, 'Crema Facial Hidratante', 'Crema facial con ácido hialurónico', 14.00, 25, 1, ''),
+(2, 'Limpiador Facial Espuma', 'Gel limpiador para todo tipo de piel', 9.90, 30, 1, ''),
+(3, 'Aceite Corporal Relajante', 'Aceite corporal para masajes', 11.00, 20, 1, ''),
+(4, 'Aceite Esencial de Lavanda', 'Aceite esencial para aromaterapia', 7.50, 30, 1, ''),
+(5, 'Labial Mate Larga Duración', 'Labial mate en tono rosa nude', 6.00, 50, 1, '');

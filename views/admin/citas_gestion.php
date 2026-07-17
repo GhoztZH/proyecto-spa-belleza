@@ -4,12 +4,8 @@ $tituloPagina = "Gestión de Reservas";
 $pageStyles = "assets/css/crudReserv.css";
 require_once 'views/layouts/header.php'; 
 ?>
+
 <main class="content">
-    <section class="welcome">
-        <a href="index.php?controller=admin&action=dashboard" class="btn btn-secondary">
-            <i class="fa-solid fa-arrow-left"></i> Volver al Inicio
-        </a>
-    </section>
 
     <section class="page-header">
         <h1>Gestión de Reservas</h1>

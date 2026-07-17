@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = "Procesando..."; // Feedback visual
 
             try {
-                const response = await fetch('index.php?controller=Citas&action=registrar', {
+                const response = await fetch('index.php?controller=citas&action=registrar', {
                     method: 'POST',
                     body: new FormData(formReserva)
                 });
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (result.success) {
                     alert("¡Reserva confirmada con éxito!");
-                    window.location.href = 'index.php?controller=Citas&action=miAgenda'; 
+                    window.location.href = 'index.php?controller=citas&action=miAgenda'; 
                     // No desbloqueamos porque redirigimos
                 } else {
                     alert("Error: " + (result.message || "No se pudo registrar la cita."));

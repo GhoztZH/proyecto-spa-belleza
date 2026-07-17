@@ -4,7 +4,7 @@
 // las consultas de lectura se resuelven mediante INNER JOIN.
 // Autor: Integrante 1
 
-require_once "models/dao/baseDAO.php";
+require_once "models/dao/BaseDAO.php";
 require_once "models/dto/usuarios/empleado.php";
 
 class EmpleadoDAO extends BaseDAO

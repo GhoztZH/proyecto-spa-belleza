@@ -7,7 +7,7 @@
 // (Renombrado desde Cliente.DAO.php para mantener la convención NombreDAO.php
 // utilizada por el resto de los DAO del proyecto: UsuarioDAO, EmpleadoDAO, RolDAO)
 
-require_once "models/dao/baseDAO.php";
+require_once "models/dao/BaseDAO.php";
 require_once "models/dto/usuarios/cliente.php";
 
 class ClienteDAO extends BaseDAO

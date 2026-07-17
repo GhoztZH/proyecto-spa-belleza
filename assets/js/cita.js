@@ -14,7 +14,7 @@ async function actualizarTabla() {
     const estado = document.getElementById("filtroEstado")?.value || "todos";
     const buscar = document.getElementById("buscadorGeneral")?.value || "";
 
-    const url = `/proyecto_segunda_huella/index.php?controller=Citas&action=obtenerCitasCliente&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
+    const url = `index.php?controller=citas&action=obtenerCitasCliente&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
 
     try {
         cuerpoCita.innerHTML = "<tr><td colspan='7'>Cargando datos...</td></tr>";

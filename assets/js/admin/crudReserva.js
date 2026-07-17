@@ -10,7 +10,7 @@ async function renderTabla() {
     const buscar = encodeURIComponent(document.getElementById("buscadorGeneral").value);
     const estado = document.getElementById("filtroEstado").value;
 
-    const url = `/proyecto_segunda_huella/index.php?controller=Citas&action=obtenerCitas&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
+    const url = `index.php?controller=citas&action=obtenerCitas&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
     const cuerpo = document.getElementById("cuerpoTabla");
 
     try {
@@ -100,7 +100,7 @@ async function guardarEdicion() {
 
     const formData = new FormData(document.getElementById("formEdicion"));
     try {
-        const response = await fetch('/proyecto_segunda_huella/index.php?controller=Citas&action=actualizar', {
+        const response = await fetch('index.php?controller=citas&action=actualizar', {
             method: 'POST',
             body: formData
         });
@@ -124,7 +124,7 @@ async function eliminarCita(id) {
     if (!confirm("¿Estás seguro de eliminar esta cita?")) return;
 
     try {
-        const response = await fetch(`/proyecto_segunda_huella/index.php?controller=Citas&action=eliminar&id=${encodeURIComponent(id)}`);
+        const response = await fetch(`index.php?controller=citas&action=eliminar&id=${encodeURIComponent(id)}`);
         const result = await response.json(); 
         
         if (result.success) {
@@ -141,7 +141,7 @@ async function eliminarCita(id) {
 // --- EMPLEADOS ---
 async function cargarEmpleados() {
     try {
-        const response = await fetch('/proyecto_segunda_huella/index.php?controller=Citas&action=obtenerEmpleados');
+        const response = await fetch('index.php?controller=citas&action=obtenerEmpleados');
         const empleados = await response.json();
         const select = document.getElementById('editEmpleado');
         select.innerHTML = '<option value="">-- Sin asignar --</option>';

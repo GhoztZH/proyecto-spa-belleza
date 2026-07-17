@@ -22,27 +22,71 @@ require_once "views/layouts/header_publico.php";
 </section>
 
 <section class="section container">
-    <h2 class="section-title">¿Qué puedes hacer en Spa & Belleza?</h2>
+    <h2 class="section-title">Nuestros servicios destacados</h2>
+
+    <?php if (!empty($serviciosDestacados)): ?>
+        <div class="grid grid-3">
+            <?php foreach ($serviciosDestacados as $s): ?>
+                <article class="card catalog-card">
+                    <div class="catalog-content">
+                        <h3 class="catalog-title"><i class="fa-solid fa-spa"></i> <?= htmlspecialchars($s['nombre']) ?></h3>
+                        <p><?= htmlspecialchars($s['descripcion'] ?? '') ?></p>
+                        <p class="catalog-price">$<?= number_format((float)$s['precio'], 2) ?></p>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+    <?php else: ?>
+        <p class="text-center">Muy pronto podrás explorar nuestros tratamientos de spa y belleza.</p>
+    <?php endif; ?>
+</section>
+
+<section class="section container">
+    <h2 class="section-title">Productos destacados</h2>
+
+    <?php if (!empty($productosDestacados)): ?>
+        <div class="grid grid-3">
+            <?php foreach ($productosDestacados as $p): ?>
+                <article class="card catalog-card">
+                    <img src="<?= !empty($p['imagen']) ? htmlspecialchars($p['imagen']) : 'assets/img/no-image.png' ?>"
+                        alt="<?= htmlspecialchars($p['nombre']) ?>">
+                    <div class="catalog-content">
+                        <h3 class="catalog-title"><?= htmlspecialchars($p['nombre']) ?></h3>
+                        <p class="catalog-price">$<?= number_format((float)$p['precio'], 2) ?></p>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+        <p class="text-center">
+            <a href="index.php?controller=clienteProd&action=catalogo" class="btn btn-outline">Ver catálogo completo</a>
+        </p>
+    <?php else: ?>
+        <p class="text-center">Estamos preparando un catálogo de productos para el cuidado de tu piel y cabello.</p>
+    <?php endif; ?>
+</section>
+
+<section class="section container">
+    <h2 class="section-title">¿Qué más puedes hacer en Spa & Belleza?</h2>
 
     <div class="grid grid-3">
         <article class="card catalog-card">
             <div class="catalog-content">
-                <h3 class="catalog-title"><i class="fa-solid fa-spa"></i> Servicios</h3>
-                <p>Muy pronto podrás explorar y reservar nuestros tratamientos de spa y belleza.</p>
-            </div>
-        </article>
-
-        <article class="card catalog-card">
-            <div class="catalog-content">
-                <h3 class="catalog-title"><i class="fa-solid fa-box-open"></i> Productos</h3>
-                <p>Estamos preparando un catálogo de productos para el cuidado de tu piel y cabello.</p>
-            </div>
-        </article>
-
-        <article class="card catalog-card">
-            <div class="catalog-content">
                 <h3 class="catalog-title"><i class="fa-solid fa-calendar-check"></i> Citas en línea</h3>
-                <p>La agenda de citas estará disponible próximamente desde tu cuenta de cliente.</p>
+                <p>Agenda tus tratamientos favoritos desde tu cuenta de cliente.</p>
+            </div>
+        </article>
+
+        <article class="card catalog-card">
+            <div class="catalog-content">
+                <h3 class="catalog-title"><i class="fa-solid fa-bag-shopping"></i> Compra en línea</h3>
+                <p>Explora el catálogo y compra tus productos favoritos desde casa.</p>
+            </div>
+        </article>
+
+        <article class="card catalog-card">
+            <div class="catalog-content">
+                <h3 class="catalog-title"><i class="fa-solid fa-user-check"></i> Historial personal</h3>
+                <p>Consulta tus citas y compras anteriores en cualquier momento.</p>
             </div>
         </article>
     </div>

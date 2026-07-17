@@ -5,7 +5,7 @@
 // La tabla roles no tiene CRUD (ver sql/spa_belleza_db.sql), por lo que
 // este DAO únicamente expone métodos de consulta.
 
-require_once "models/dao/baseDAO.php";
+require_once "models/dao/BaseDAO.php";
 require_once "models/dto/usuarios/rol.php";
 
 class RolDAO extends BaseDAO

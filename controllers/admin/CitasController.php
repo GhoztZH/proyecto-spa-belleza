@@ -1,13 +1,11 @@
 <?php
 // Autor: Maria Belen Cassiaux Guerrero
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/BaseDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dao/Citas/CitaDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dto/Cita.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dao/ServicioDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dto/Servicio.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/controllers/publico/SesionHelper.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dao/usuarios/ClienteDAO.php';
-
+require_once "models/dao/Citas/CitaDAO.php";
+require_once "models/dto/cita/Cita.php";
+require_once "models/dao/Citas/ServicioDAO.php";
+require_once "models/dto/cita/Servicio.php";
+require_once "controllers/SesionHelper.php";
+require_once "models/dao/usuarios/ClienteDAO.php";
 
 class CitasController 
 {
@@ -21,11 +19,19 @@ class CitasController
     }
 
     public function index() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        SesionHelper::requerirRol(['Administrador']);
+
+        $mostrarMenu = true;
+
         $citas = $this->citaDAO->listar();
         require_once "views/admin/citas_gestion.php";
     }
 
     public function crear() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        SesionHelper::requerirRol(['Cliente']);
+
         $servicios = $this->servicioDAO->listarPorCategoria(1);
         $tratamientos = $this->servicioDAO->listarPorCategoria(2);
         require_once "views/cliente/citas/cita_reserva.php";
@@ -64,12 +70,15 @@ class CitasController
     }
 
     public function obtenerCitas() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        header('Content-Type: application/json; charset=utf-8');
+        SesionHelper::requerirRol(['Administrador']);
+
         $fecha = filter_input(INPUT_GET, 'fecha', FILTER_SANITIZE_SPECIAL_CHARS);
         $buscar = filter_input(INPUT_GET, 'buscar', FILTER_SANITIZE_SPECIAL_CHARS);
         $estado = filter_input(INPUT_GET, 'estado', FILTER_SANITIZE_SPECIAL_CHARS) ?? 'todos';
 
         $datos = $this->citaDAO->listar($fecha, $buscar, $estado);
-        header('Content-Type: application/json ; charset=utf-8');
         echo json_encode($datos);
         exit(); 
     }
@@ -101,7 +110,10 @@ class CitasController
     }
 
     public function actualizar() {
-    
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        header('Content-Type: application/json; charset=utf-8');
+        SesionHelper::requerirRol(['Administrador']);
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $id_cita = filter_input(INPUT_POST, 'id_cita', FILTER_VALIDATE_INT);
@@ -135,14 +147,21 @@ class CitasController
     }
     
     public function obtenerEmpleados() {
-        $empleados = $this->citaDAO->obtenerEmpleados();
+        if (session_status() === PHP_SESSION_NONE) session_start();
         header('Content-Type: application/json');
+        SesionHelper::requerirRol(['Administrador']);
+
+        $empleados = $this->citaDAO->obtenerEmpleados();
         echo json_encode($empleados);
         exit();
     }
 
 
     public function eliminar() {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        header('Content-Type: application/json');
+        SesionHelper::requerirRol(['Administrador']);
+
         $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
         
         if (!$id || intval($id) <= 0) {
@@ -171,6 +190,7 @@ class CitasController
             session_start();
         }
         header('Content-Type: application/json');
+        SesionHelper::requerirRol(['Cliente']);
         $servicios = $_POST['servicios'] ?? []; 
 
         if (empty($servicios)) {

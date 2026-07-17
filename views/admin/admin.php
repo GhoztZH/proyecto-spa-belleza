@@ -43,19 +43,19 @@
                 <p>Administrar tratamientos y servicios.</p>
             </article>
 
-            <article class="card module-card">
+            <article class="card module-card" data-url="?controller=producto&action=listar">
                 <i class="fa-solid fa-box-open module-icon"></i>
                 <h4>Productos</h4>
                 <p>Gestionar el catálogo de productos.</p>
             </article>
 
-            <article class="card module-card">
+            <article class="card module-card" data-url="?controller=citas&action=index">
                 <i class="fa-solid fa-calendar-check module-icon"></i>
                 <h4>Citas</h4>
                 <p>Consultar y administrar citas.</p>
             </article>
 
-            <article class="card module-card">
+            <article class="card module-card" data-url="?controller=venta&action=index">
                 <i class="fa-solid fa-cash-register module-icon"></i>
                 <h4>Ventas</h4>
                 <p>Consultar ventas realizadas.</p>

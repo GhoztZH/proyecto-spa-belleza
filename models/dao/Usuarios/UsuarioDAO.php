@@ -6,7 +6,7 @@
 // empleados y clientes. No contiene lógica de negocio ni validaciones;
 // esa responsabilidad pertenece a los Controllers.
 
-require_once "models/dao/baseDAO.php";
+require_once "models/dao/BaseDAO.php";
 require_once "models/dto/usuarios/usuario.php";
 
 class UsuarioDAO extends BaseDAO

@@ -28,12 +28,17 @@ $rutasControllers = [
     'usuario'      => ['clase' => 'UsuarioController',     'ruta' => 'controllers/admin/UsuarioController.php'],
     'empleado'     => ['clase' => 'EmpleadoController',    'ruta' => 'controllers/admin/EmpleadoController.php'],
     'cliente'      => ['clase' => 'ClienteController',     'ruta' => 'controllers/admin/ClienteController.php'],
+    'citas'        => ['clase' => 'CitasController',       'ruta' => 'controllers/admin/CitasController.php'],
+    'producto'     => ['clase' => 'ProductoController',    'ruta' => 'controllers/admin/ProductoController.php'],
+    'venta'        => ['clase' => 'VentaController',       'ruta' => 'controllers/admin/VentaController.php'],
 
     // Sitio público (visitantes sin autenticar)
     'sitio'        => ['clase' => 'SitioController',       'ruta' => 'controllers/publico/SitioController.php'],
 
     // Área privada del cliente autenticado
     'area-cliente' => ['clase' => 'ClienteAreaController', 'ruta' => 'controllers/cliente/ClienteAreaController.php'],
+    'clienteProd'  => ['clase' => 'ClienteProdController', 'ruta' => 'controllers/cliente/ClienteProdController.php'],
+    'carrito'      => ['clase' => 'CarritoController',     'ruta' => 'controllers/cliente/CarritoController.php'],
 ];
 
 // -------------------------------------------------------------------------

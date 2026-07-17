@@ -49,22 +49,22 @@
 
                 <?php if (isset($mostrarMenu) && $mostrarMenu === true): ?>
                     <nav class="navbar-menu-internal">
-                        <a href="index.php?controller=admin&action=dashboard" class="nav-link-item">
+                        <a href="?controller=admin&action=dashboard" class="nav-link-item">
                             <i class="fa-solid fa-house"></i> Inicio
                         </a>
-                        <a href="index.php?controller=usuario&action=listar" class="nav-link-item">
+                        <a href="?controller=usuario&action=listar" class="nav-link-item">
                             <i class="fa-solid fa-user-gear"></i> Usuarios
                         </a>
-                        <a href="#" class="nav-link-item">
+                        <a href="?controller=citas&action=index" class="nav-link-item">
                             <i class="fa-solid fa-calendar-check"></i> Citas
                         </a>
                         <a href="#" class="nav-link-item">
                             <i class="fa-solid fa-spa"></i> Servicios
                         </a>
-                        <a href="#" class="nav-link-item">
+                        <a href="?controller=producto&action=listar" class="nav-link-item">
                             <i class="fa-solid fa-box-open"></i> Productos
                         </a>
-                        <a href="#" class="nav-link-item">
+                        <a href="?controller=venta&action=index" class="nav-link-item">
                             <i class="fa-solid fa-cash-register"></i> Ventas
                         </a>
                     </nav>

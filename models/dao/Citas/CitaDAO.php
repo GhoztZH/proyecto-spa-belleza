@@ -1,7 +1,7 @@
 <?php
 // autor: Maria Belen Cassiaux Guerrero
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/BaseDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/proyecto_segunda_huella/models/dto/Cita.php';
+require_once "models/dao/BaseDAO.php";
+require_once "models/dto/cita/Cita.php";
 
 class CitaDAO extends BaseDAO {
     
