@@ -1,4 +1,6 @@
 <?php
+//autor: alexander calle
+
 
 require_once "controllers/SesionHelper.php";
 require_once "models/dao/Venta/VentaDAO.php";

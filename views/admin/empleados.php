@@ -4,7 +4,7 @@ $pageStyles = "assets/css/empleados.css";
 require_once "views/layouts/header.php";
 ?>
 
-<!-- Autor: Integrante 1 -->
+<!-- Autor: alejandro velez -->
 
 <main class="content">
 

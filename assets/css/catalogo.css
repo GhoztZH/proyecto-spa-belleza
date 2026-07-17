@@ -113,7 +113,13 @@
     padding: 18px;
     display: flex;
     flex-direction: column;
+    flex: 1;
     gap: 6px;
+}
+
+
+.producto-info p {
+    flex: 1;
 }
 
 .producto-info .categoria {
@@ -135,9 +141,18 @@
 .acciones-producto {
     display: flex;
     gap: 10px;
-    margin-top: 8px;
+    margin-top: auto;
 }
 
+.acciones-producto .btn {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    min-width: 0;
+    padding: 10px 14px;
+}
 /* ---------- Panel lateral del carrito ---------- */
 .carrito-panel {
     position: fixed;

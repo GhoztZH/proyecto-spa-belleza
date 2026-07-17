@@ -3,6 +3,10 @@
 
 $tituloPagina = "Servicios";
 $pageStyles = "assets/css/servicios-publico.css";
+$termino = isset($termino) ? $termino : '';
+$idCategoria = isset($idCategoria) ? $idCategoria : 0;
+$categorias = isset($categorias) ? $categorias : [];
+$servicios = isset($servicios) ? $servicios : [];
 require_once "views/layouts/header_publico.php";
 ?>
 

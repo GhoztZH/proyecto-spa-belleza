@@ -1,7 +1,11 @@
 <!--autor: Marvin Castro-->
 <?php
-    $tituloPagina = "Detalle de compra #" . $idCompra;
+    $tituloPagina = "Detalle de compra #" . ($compra['id_compra'] ?? '');
+    $compra = $compra ?? ['id_compra' => '', 'fecha' => '', 'estado' => '', 'total' => 0];
+    $detalle = isset($detalle) && is_array($detalle) ? $detalle : [];
     require_once "views/layouts/header_publico.php";
+
+
 ?>
 <main class="container section">
     <section class="section-header">

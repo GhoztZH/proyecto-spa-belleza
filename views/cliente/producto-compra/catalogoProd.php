@@ -56,58 +56,66 @@ require_once "views/layouts/header_publico.php";
         data-id="0">
             Todos
         </button>
-        <?php foreach($categorias as $c): ?>
-            <button
-            class="btnCategoria"
-            data-id="<?= $c["id_categoria_producto"] ?>">
-                <?= htmlspecialchars($c["nombre_categoria"]) ?>
-            </button>
-        <?php endforeach; ?>
+        <?php if (!empty($categorias) && is_array($categorias)): ?>
+            <?php foreach($categorias as $c): ?>
+                <button
+                class="btnCategoria"
+                data-id="<?= htmlspecialchars($c["id_categoria_producto"]) ?>">
+                    <?= htmlspecialchars($c["nombre_categoria"]) ?>
+                </button>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </section>
 
     <!-- PRODUCTOS-->
     <section
     class="catalogo-grid"
     id="catalogoGrid">
-    <?php foreach($productos as $p): ?>
-        <article class="producto-card">
-            <img
-            src="<?= !empty($p["imagen"])
-                ? htmlspecialchars($p["imagen"])
-                : "assets/img/no-image.png" ?>"
-            alt="<?= htmlspecialchars($p["nombre"]) ?>">
-            <div class="producto-info">
-                <span class="categoria">
-                    <?= htmlspecialchars($p["nombre_categoria"]) ?>
-                </span>
-                <h3>
-                    <?= htmlspecialchars($p["nombre"]) ?>
-                </h3>
-                <p>
+    <?php if (!empty($productos) && is_array($productos)): ?>
+        <?php foreach($productos as $p): ?>
+            <article class="producto-card">
+                <img
+                src="<?= !empty($p["imagen"])
+                    ? htmlspecialchars($p["imagen"])
+                    : "assets/img/no-image.png" ?>"
+                alt="<?= htmlspecialchars($p["nombre"]) ?>">
+                <div class="producto-info">
+                    <span class="categoria">
+                        <?= htmlspecialchars($p["nombre_categoria"]) ?>
+                    </span>
+                    <h3>
+                        <?= htmlspecialchars($p["nombre"]) ?>
+                    </h3>
+                    <p>
 
-                    <?= htmlspecialchars($p["descripcion"]) ?>
-                </p>
-                <div class="precio">
-                    $<?= number_format($p["precio"],2) ?>
+                        <?= htmlspecialchars($p["descripcion"]) ?>
+                    </p>
+                    <div class="precio">
+                        $<?= number_format($p["precio"],2) ?>
+                    </div>
+                    <div class="acciones-producto">
+                        <a
+                        class="btn btn-secondary"
+                        href="index.php?controller=clienteProd&action=detalle&id=<?= $p["id_producto"] ?>">
+                            <i class="fa-solid fa-eye"></i>
+                            Detalles
+                        </a>
+                        <button
+                        class="btn btn-primary btnAgregarCarrito"
+                        data-id="<?= $p["id_producto"] ?>"
+                        type="button">
+                            <i class="fa-solid fa-cart-plus"></i>
+                            Agregar
+                        </button>
+                    </div>
                 </div>
-                <div class="acciones-producto">
-                    <a
-                    class="btn btn-secondary"
-                    href="index.php?controller=clienteProd&action=detalle&id=<?= $p["id_producto"] ?>">
-                        <i class="fa-solid fa-eye"></i>
-                        Detalles
-                    </a>
-                    <button
-                    class="btn btn-primary btnAgregarCarrito"
-                    data-id="<?= $p["id_producto"] ?>"
-                    type="button">
-                        <i class="fa-solid fa-cart-plus"></i>
-                        Agregar
-                    </button>
-                </div>
-            </div>
-        </article>
-    <?php endforeach; ?>
+            </article>
+        <?php endforeach; ?>
+    <?php else: ?>
+        <div class="sin-productos">
+            <p>No hay productos disponibles en este momento.</p>
+        </div>
+    <?php endif; ?>
     </section>
 
     <!-- CARRITO LATERAL-->

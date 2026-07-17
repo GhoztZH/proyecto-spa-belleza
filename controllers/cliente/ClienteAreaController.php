@@ -1,8 +1,9 @@
 <?php
+//autor: zhunaula imabquingo kevin leodan
+
 // CONTROLLER - Área privada del Cliente autenticado. Expone el Inicio del
 // cliente y el historial de compras (CompraDAO), reutilizando las vistas
 // ya construidas en views/cliente/producto-compra/.
-// Autor: Integrante 1
 
 require_once "controllers/SesionHelper.php";
 require_once "models/dao/compra/CompraDAO.php";

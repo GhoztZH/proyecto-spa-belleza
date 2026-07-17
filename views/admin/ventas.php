@@ -1,4 +1,6 @@
 <?php
+//autor: alexander calle
+
 $tituloPagina = "Ventas";
 $mostrarMenu = true;
 $pageStyles = "assets/css/ventas.css";

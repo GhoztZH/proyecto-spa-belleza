@@ -2,6 +2,17 @@
 //autor: Marvin Castro
 $pageStyles = "assets/css/detalleProducto.css";
 require_once "views/layouts/header_publico.php";
+// Ensure $producto is defined to avoid undefined variable errors
+if (!isset($producto) || !is_array($producto)) {
+    $producto = [
+        "imagen" => "assets/images/placeholder.png",
+        "nombre" => "Producto no disponible",
+        "nombre_categoria" => "-",
+        "descripcion" => "No hay descripción disponible.",
+        "precio" => 0,
+        "stock" => 0,
+    ];
+}
 ?>
 <main class="detalle-container">
     <div class="detalle-card">

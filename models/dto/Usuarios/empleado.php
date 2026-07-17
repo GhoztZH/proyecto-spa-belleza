@@ -1,4 +1,6 @@
 <?php
+//autor: alejandro velez
+
 // DTO (Model) - Capa de datos: representa un registro de la tabla 'empleados'.
 // Autor: Integrante 1
 // Responsabilidad: únicamente contener atributos, constructor, getters y setters.

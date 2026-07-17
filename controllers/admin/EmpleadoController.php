@@ -1,4 +1,6 @@
 <?php
+//autor: alejandro velez
+
 // CONTROLLER - Gestiona el CRUD de empleados desde el panel administrativo.
 // Coordina la creación simultánea del usuario (datos personales + acceso)
 // y de su fila en 'empleados' (datos laborales) dentro de una transacción.

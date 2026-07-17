@@ -1,4 +1,5 @@
 <?php
+//autor: alexander calle
 
 $tituloPagina = "Detalle de Venta";
 $mostrarMenu = true;

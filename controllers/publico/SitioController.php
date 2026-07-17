@@ -1,4 +1,6 @@
 <?php
+//autor: zhunaula imabquingo kevin leodan
+
 // CONTROLLER - Sirve las páginas públicas del sitio (visitantes sin
 // autenticar): el Home y el catálogo público de Servicios. Reutiliza los
 // DAO de los módulos existentes sin duplicar datos.

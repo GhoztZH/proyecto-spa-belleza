@@ -1,5 +1,5 @@
 <?php
-//Autor: Arias Pugo Marcela Romina
+//Autor: zhunaula imabquingo kevin leodan
 
 // VIEW - "Mi Cuenta": perfil del cliente autenticado con accesos rápidos
 // a citas, compras y catálogo.
@@ -73,10 +73,6 @@ if (!isset($usuario) || !is_array($usuario)) {
                 <div class="perfil-dato">
                     <span><i class="fa-solid fa-at"></i> Usuario</span>
                     <strong><?= htmlspecialchars($usuario['username']) ?></strong>
-                </div>
-                <div class="perfil-dato">
-                    <span><i class="fa-solid fa-shield-halved"></i> Rol</span>
-                    <strong><?= htmlspecialchars($usuario['nombre_rol']) ?></strong>
                 </div>
             </div>
         </article>
