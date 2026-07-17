@@ -13,7 +13,7 @@ require_once "views/layouts/header_publico.php";
 <main>
     <section class="services-hero">
         <div class="container services-hero-content">
-            <h1>Servicios de Delux Spa</h1>
+            <h1>Nuestros Servicios</h1>
             <p>Explora tratamientos diseñados para tu cuidado, relajación y bienestar.</p>
             <a href="#catalogo-servicios" class="btn btn-primary">Explorar servicios</a>
         </div>

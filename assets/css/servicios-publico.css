@@ -11,7 +11,7 @@
     border-radius: 20px;
     background:
         linear-gradient(rgba(0, 0, 0, .38), rgba(0, 0, 0, .38)),
-        url("https://media.istockphoto.com/id/1590247969/es/foto/hermosa-mujer-disfrutando-de-recibir-un-tratamiento-facial-en-el-spa.jpg?s=612x612&w=0&k=20&c=VFiwmig3p5QYZ_tWfd8_6szVK9HSImwFUonYjIDDXF0=") center 45% / cover no-repeat;
+        url("../img/publico/hero-servicios.jpeg") center / cover no-repeat;
 }
 
 .services-hero-content {

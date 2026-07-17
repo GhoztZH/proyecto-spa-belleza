@@ -1,17 +1,31 @@
 /*Autor: Maria Belén Cassiaux Guerreo */
 /* estilos */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.sub-titulo { 
-    text-align: center; 
-    color: var(--text-black); 
-    margin-bottom: 60px; 
-    font-size: 16px; 
+.content {
+    background:
+        linear-gradient(160deg, rgba(31, 41, 55, 0.72) 0%, rgba(53, 92, 125, 0.55) 60%, rgba(123, 140, 107, 0.45) 100%),
+        url("../img/publico/fondo-cita-reserva.png") center / cover no-repeat;
 }
+
+section h1 {
+    text-align: center;
+    color: var(--text-white);
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.sub-titulo {
+    text-align: center;
+    color: var(--text-white);
+    margin-bottom: 60px;
+    font-size: 16px;
+}
+
 /* Filtros */
 .filtros {
     background-color: var(--bg-surface);
@@ -32,7 +46,9 @@
     font-size: var(--font-size-sm);
 }
 
-#filtroEstado, #filtroFecha, #buscadorGeneral {
+#filtroEstado,
+#filtroFecha,
+#buscadorGeneral {
     padding: 10px;
     border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
@@ -103,6 +119,7 @@
     margin-top: 20px;
     justify-content: center;
 }
+
 /* */
 /* reserva */
 /* Formulario */
@@ -128,7 +145,10 @@
     margin-bottom: var(--space-2);
 }
 
-input[type="text"], input[type="tel"], input[type="date"], input[type="time"] {
+input[type="text"],
+input[type="tel"],
+input[type="date"],
+input[type="time"] {
     width: 100%;
     padding: 10px;
     border: 1px solid var(--border-color);

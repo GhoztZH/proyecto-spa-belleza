@@ -5,6 +5,26 @@
 ==================================================*/
 
 /* ---------- Botón flotante del carrito ---------- */
+
+.hero {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    background:
+        linear-gradient(rgba(0, 0, 0, .38), rgba(0, 0, 0, .38)),
+        url("../img/publico/hero-catalogo.jpeg") center / cover no-repeat;
+}
+
+.hero, .hero-content p {
+    color: var(--text-white);
+    margin-bottom: 20px;
+
+}
+
 .carrito-flotante {
     position: fixed;
     bottom: 25px;
