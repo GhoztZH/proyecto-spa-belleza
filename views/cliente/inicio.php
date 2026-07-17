@@ -1,9 +1,20 @@
 <?php
+//Autor: Arias Pugo Marcela Romina
+
 // VIEW - "Mi Cuenta": perfil del cliente autenticado con accesos rápidos
 // a citas, compras y catálogo.
 $tituloPagina = "Mi Cuenta";
 $pageStyles = "assets/css/perfil.css";
 require_once "views/layouts/header_publico.php";
+
+if (!isset($usuario) || !is_array($usuario)) {
+    $usuario = [
+        'nombre' => '',
+        'apellido' => '',
+        'username' => '',
+        'nombre_rol' => ''
+    ];
+}
 ?>
 
 <section class="section container">

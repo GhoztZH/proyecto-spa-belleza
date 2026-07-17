@@ -1,4 +1,6 @@
 <?php
+//Autor: Arias Pugo Marcela Romina
+
 // DAO de consulta para el catálogo fijo de categorías de servicio.
 
 require_once "models/dao/BaseDAO.php";

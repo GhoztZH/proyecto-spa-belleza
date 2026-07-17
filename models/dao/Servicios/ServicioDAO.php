@@ -1,4 +1,6 @@
 <?php
+//Autor: Arias Pugo Marcela Romina
+
 // DAO: acceso a datos del catálogo de servicios.
 
 require_once "models/dao/BaseDAO.php";

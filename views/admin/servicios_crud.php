@@ -1,4 +1,6 @@
 <?php
+//Autor: Arias Pugo Marcela Romina
+
 $tituloPagina = "Servicios";
 $pageStyles = "assets/css/servicios.css";
 require_once "views/layouts/header.php";
@@ -12,6 +14,11 @@ $valorPrecio = $editando ? number_format($servicioEditar->getPrecio(), 2, '.', '
 $valorCategoria = $editando ? $servicioEditar->getIdCategoriaServicio() : 0;
 $valorDisponibilidad = $editando ? ($servicioEditar->getDisponibilidad() ? 1 : 0) : 1;
 $valorImagen = $editando ? $servicioEditar->getImagen() : null;
+
+// Asegurar que $categorias exista y sea iterable para evitar "undefined variable"
+if (!isset($categorias) || !is_array($categorias)) {
+    $categorias = [];
+}
 ?>
 
 <main class="content">

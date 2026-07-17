@@ -1,4 +1,6 @@
 <?php
+//Autor: Arias Pugo Marcela Romina
+
 // VIEW - Home público de Delux Spa: hero, presentación, servicios
 // destacados (con acceso al flujo de citas), productos y CTA.
 $tituloPagina = "Inicio";
