@@ -17,7 +17,7 @@ require_once 'views/layouts/header.php';
         <input type="date" id="filtroFecha" onchange="renderTabla()">
         
         <label>Buscador:</label>
-        <input type="text" id="buscadorGeneral" placeholder="Buscar..." oninput="renderTabla()">
+        <input type="text" id="buscadorGeneral" placeholder="Buscar..." oninput="actualizarTabla()">
         
         <label>Estado:</label>
         <select id="filtroEstado" onchange="renderTabla()">
