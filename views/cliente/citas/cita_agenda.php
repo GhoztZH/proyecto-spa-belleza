@@ -22,16 +22,16 @@ require_once "views/layouts/header_publico.php";
         <p class="sub-titulo" style="color: black; text-align: center;">Consulta y gestiona tus citas programadas</p>
     </section>
 
-    <!-- Filtros que ahora disparan funciones JS de consulta al servidor -->
+    <!-- Filtros: los eventos se registran en assets/js/cita.js -->
     <div class="filtros">
         <label>Filtrar por fecha:</label>
-        <input type="date" id="filtroFecha" onchange="actualizarTabla()">
-        
+        <input type="date" id="filtroFecha" onchange="cargarTabla()">
+
         <label>Buscador:</label>
-        <input type="text" id="buscadorGeneral" placeholder="Buscar..." oninput="actualizarTabla()">
-        
+        <input type="text" id="buscadorGeneral" placeholder="Buscar...">
+
         <label>Estado:</label>
-        <select id="filtroEstado" onchange="actualizarTabla()">
+        <select id="filtroEstado" onchange="cargarTabla()">
                 <option value="todos">Todos</option>
                 <option value="Pendiente">Pendiente</option>
                 <option value="Atendida">Atendida</option>
@@ -58,7 +58,11 @@ require_once "views/layouts/header_publico.php";
         </tbody>
     </table>
 </main>
-</div>
+
+<script>
+    // Esta vista consume el endpoint de cliente, no el de administrador.
+    const accionTabla = "obtenerCitasCliente";
+</script>
 <?php
 $pageScript = "assets/js/cita.js";
 require_once "views/layouts/footer_cliente.php"; 

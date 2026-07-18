@@ -1,87 +1,120 @@
-// autor: Maria Belen Cassiaux Guerrero
-document.addEventListener("DOMContentLoaded", actualizarTabla);
+// Autor: Maria Belen Cassiaux Guerrero
+//
+// Listado de citas con filtros server-side, reutilizado por dos vistas:
+//   - views/admin/citas_gestion.php   -> no usa este script (usa crudReserva.js)
+//   - views/cliente/citas/cita_agenda.php -> agenda personal del cliente
+//
+// La vista que incluye este script DEBE declarar antes, en un <script>,
+// la acción del controlador a consultar:
+//   const accionTabla = "obtenerCitasCliente";
+// Si no se declara, se usa "obtenerCitas" (solo Administrador) por defecto.
+const accion = typeof accionTabla !== "undefined"
+    ? accionTabla
+    : "obtenerCitas";
+
+let debounceBusquedaCliente = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+    cargarTabla();
+
+    // Búsqueda en tiempo real con debounce para no saturar el servidor.
+    const buscador = document.getElementById("buscadorGeneral");
+    if (buscador) {
+        buscador.addEventListener("input", () => {
+            clearTimeout(debounceBusquedaCliente);
+            debounceBusquedaCliente = setTimeout(cargarTabla, 300);
+        });
+    }
+});
 
 /**
- * Función que actualiza la tabla de citas obteniendo datos del servidor.
- * Construye la URL con parámetros para que el servidor filtre correctamente.
+ * Obtiene las citas desde el servidor (según los filtros activos) y
+ * actualiza la tabla.
  */
-async function actualizarTabla() {
+async function cargarTabla() {
     const cuerpoCita = document.getElementById("cuerpoCita");
     if (!cuerpoCita) return;
-    
-    // Obtener valores de los filtros desde el DOM
-    const fecha = document.getElementById("filtroFecha")?.value || "";
-    const estado = document.getElementById("filtroEstado")?.value || "todos";
-    const buscar = document.getElementById("buscadorGeneral")?.value || "";
 
-    const url = `index.php?controller=citas&action=obtenerCitasCliente&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
+    const fecha = document.getElementById("filtroFecha")?.value ?? "";
+    const estado = document.getElementById("filtroEstado")?.value ?? "todos";
+    const buscar = document.getElementById("buscadorGeneral")?.value.trim() ?? "";
+
+    const url =
+        `index.php?controller=citas&action=${accion}` +
+        `&fecha=${encodeURIComponent(fecha)}` +
+        `&buscar=${encodeURIComponent(buscar)}` +
+        `&estado=${encodeURIComponent(estado)}`;
 
     try {
         cuerpoCita.innerHTML = "<tr><td colspan='7'>Cargando datos...</td></tr>";
+
         const response = await fetch(url);
-        
-        if (!response.ok) throw new Error("Error en la conexión con el servidor");
-        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
         const citas = await response.json();
-
-        cuerpoCita.innerHTML = ""; 
-
-        if (!citas || citas.length === 0) {
-            cuerpoCita.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No se encontraron citas.</td></tr>";
-            return;
-        }
-        
-        // --- LÓGICA DE AGRUPACIÓN ROBUSTA ---
-        const citasAgrupadas = {};
-
-        citas.forEach(c => {
-            const key = `${c.fecha}_${c.hora}_${c.id_cliente}`;
-            const nombres = c.nombre_servicio || 'Sin servicio';
-            
-            if (!citasAgrupadas[key]) {
-                citasAgrupadas[key] = { 
-                    ...c, 
-                    serviciosSet: new Set() 
-                };
-            }
-
-            if (nombres !== 'Sin servicio') {
-                citasAgrupadas[key].serviciosSet.add(nombres);
-            }
-        });
-
-        // --- DIBUJAR LA TABLA ---
-        Object.values(citasAgrupadas).forEach(c => {
-            const row = document.createElement("tr");
-            
-            const listaUnica = c.serviciosSet.size > 0 
-                ? Array.from(c.serviciosSet).join(", ") 
-                : 'N/A';
-            
-            row.innerHTML = `
-                <td>${c.nombre_cliente || 'N/A'}</td>
-                <td>${listaUnica}</td> 
-                <td>${c.nombre_empleado || '<em>No asignado</em>'}</td>
-                <td>${c.fecha || 'N/A'}</td>
-                <td>${c.hora ? c.hora.substring(0, 5) : 'N/A'}</td>
-                <td>${c.estado || 'N/A'}</td>
-                <td>${c.observacion || ''}</td>
-            `;
-            cuerpoCita.appendChild(row);    
-        });
+        renderTabla(citas);
     } catch (error) {
-        console.error("Error al cargar la tabla:", error);
-        cuerpoCita.innerHTML = 
-        "<tr><td colspan='7' style='color:red; text-align:center;'>Error al cargar los datos: " + error.message + "</td></tr>";
+        console.error(error);
+        cuerpoCita.innerHTML =
+            `<tr>
+                <td colspan="7" style="color:red;text-align:center">
+                    Error al cargar las citas.
+                </td>
+            </tr>`;
     }
 }
 
 /**
- * Limpia los filtros y recarga la tabla.
+ * Dibuja las filas de la tabla, agrupando por fecha+hora+cliente
+ * (una cita puede tener varios servicios asociados).
+ */
+function renderTabla(citas) {
+    const cuerpoCita = document.getElementById("cuerpoCita");
+    cuerpoCita.innerHTML = "";
+
+    if (!Array.isArray(citas) || citas.length === 0) {
+        cuerpoCita.innerHTML =
+            "<tr><td colspan='7' style='text-align:center;'>No se encontraron citas.</td></tr>";
+        return;
+    }
+
+    const agrupadas = {};
+
+    citas.forEach(cita => {
+        const key = `${cita.fecha}_${cita.hora}_${cita.id_cliente}`;
+
+        if (!agrupadas[key]) {
+            agrupadas[key] = { ...cita, servicios: new Set() };
+        }
+
+        if (cita.nombre_servicio) {
+            agrupadas[key].servicios.add(cita.nombre_servicio);
+        }
+    });
+
+    Object.values(agrupadas).forEach(cita => {
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+            <td>${cita.nombre_cliente ?? "N/A"}</td>
+            <td>${[...cita.servicios].join(", ") || "N/A"}</td>
+            <td>${cita.nombre_empleado ?? "<em>No asignado</em>"}</td>
+            <td>${cita.fecha}</td>
+            <td>${cita.hora.substring(0, 5)}</td>
+            <td>${cita.estado}</td>
+            <td>${cita.observacion ?? ""}</td>
+        `;
+
+        cuerpoCita.appendChild(fila);
+    });
+}
+
+/**
+ * Restablece los filtros y vuelve a consultar el listado completo.
  */
 function limpiarFiltros() {
     document.getElementById("filtroFecha").value = "";
     document.getElementById("buscadorGeneral").value = "";
     document.getElementById("filtroEstado").value = "todos";
-    actualizarTabla();
+    cargarTabla();
 }

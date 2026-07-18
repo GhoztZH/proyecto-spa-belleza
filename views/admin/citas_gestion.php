@@ -14,13 +14,13 @@ require_once 'views/layouts/header.php';
 
     <div class="filtros">
         <label>Filtrar por fecha:</label>
-        <input type="date" id="filtroFecha" onchange="renderTabla()">
+        <input type="date" id="filtroFecha" onchange="actualizarTabla()">
         
         <label>Buscador:</label>
-        <input type="text" id="buscadorGeneral" placeholder="Buscar..." oninput="actualizarTabla()">
+        <input type="text" id="buscadorGeneral" placeholder="Buscar...">
         
         <label>Estado:</label>
-        <select id="filtroEstado" onchange="renderTabla()">
+        <select id="filtroEstado" onchange="actualizarTabla()">
             <option value="todos">Todos</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Atendida">Atendida</option>
@@ -69,8 +69,7 @@ require_once 'views/layouts/header.php';
     <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
     </form>
 </div>
+
+<!-- Cierre de los contenedores ".main-content" y ".admin-layout" abiertos en header.php -->
 </div>
-<?php 
-$pageScript = "assets/js/admin/crudReserva.js";
-require_once "views/layouts/footer.php"; 
-?>
+</div>

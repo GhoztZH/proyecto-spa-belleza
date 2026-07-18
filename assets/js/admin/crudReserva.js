@@ -1,13 +1,35 @@
 // autor: Maria Belen Cassiaux Guerrero
+// Gestión de citas (flujo administrador): listado con filtros server-side,
+// edición de estado/empleado/observación y eliminación.
+//
+// NOTA: los inputs de "views/admin/citas_gestion.php" llaman a actualizarTabla()
+// en sus eventos onchange/oninput; por eso la función de carga/filtrado se
+// llama igual (antes se llamaba renderTabla() y nunca se ejecutaba).
+
+let debounceBusquedaAdmin = null;
+
 document.addEventListener("DOMContentLoaded", () => {
-    renderTabla();
+    actualizarTabla();
     cargarEmpleados();
+
+    // El buscador de texto consulta al servidor en cada tecla, con debounce
+    // para no disparar una petición por cada pulsación.
+    const buscador = document.getElementById("buscadorGeneral");
+    if (buscador) {
+        buscador.addEventListener("input", () => {
+            clearTimeout(debounceBusquedaAdmin);
+            debounceBusquedaAdmin = setTimeout(actualizarTabla, 300);
+        });
+    }
 });
 
-// --- RENDERIZA TABLA CON FILTROS ---
-async function renderTabla() {
+/**
+ * Consulta las citas al servidor aplicando los filtros vigentes
+ * (fecha, texto de búsqueda y estado) y repinta la tabla.
+ */
+async function actualizarTabla() {
     const fecha = document.getElementById("filtroFecha").value;
-    const buscar = encodeURIComponent(document.getElementById("buscadorGeneral").value);
+    const buscar = encodeURIComponent(document.getElementById("buscadorGeneral").value.trim());
     const estado = document.getElementById("filtroEstado").value;
 
     const url = `index.php?controller=citas&action=obtenerCitas&fecha=${fecha}&buscar=${buscar}&estado=${estado}`;
@@ -16,9 +38,9 @@ async function renderTabla() {
     try {
         cuerpo.innerHTML = "<tr><td colspan='8'>Cargando datos...</td></tr>";
         const response = await fetch(url);
-        
+
         if (!response.ok) throw new Error("Error en el servidor");
-        
+
         const citas = await response.json();
         cuerpo.innerHTML = "";
 
@@ -27,29 +49,32 @@ async function renderTabla() {
             return;
         }
 
+        // Una cita puede tener varios servicios asociados (varias filas con
+        // el mismo id_cita); se agrupan para mostrar una sola fila por cita.
         const citasAgrupadas = {};
 
         citas.forEach(c => {
             const key = c.id_cita;
             if (!citasAgrupadas[key]) {
                 citasAgrupadas[key] = { ...c, lista_servicios: [c.nombre_servicio] };
-            } else {
-                if (!citasAgrupadas[key].lista_servicios.includes(c.nombre_servicio)) {
-                    citasAgrupadas[key].lista_servicios.push(c.nombre_servicio);
-                }
+            } else if (!citasAgrupadas[key].lista_servicios.includes(c.nombre_servicio)) {
+                citasAgrupadas[key].lista_servicios.push(c.nombre_servicio);
             }
         });
 
         Object.values(citasAgrupadas).forEach(c => {
             const row = document.createElement("tr");
             row.setAttribute("data-id", c.id_cita);
-            
+            // Se guarda el id del empleado asignado para precargar el
+            // select del modal de edición (ver abrirModal).
+            row.setAttribute("data-id-empleado", c.id_empleado ?? "");
+
             row.innerHTML = `
                 <td>${c.nombre_cliente || 'N/A'}</td>
-                <td>${Array.from(c.lista_servicios).join(", ")}</td> <!-- Servicios concatenados -->
+                <td>${c.lista_servicios.join(", ")}</td>
                 <td>
-                    ${c.nombre_empleado 
-                        ? `${c.nombre_empleado} ${c.apellido_empleado} (${c.cargo_empleado})` 
+                    ${c.nombre_empleado
+                        ? `${c.nombre_empleado} ${c.apellido_empleado} (${c.cargo_empleado})`
                         : '<em>Sin asignar</em>'}
                 </td>
                 <td>${c.fecha}</td>
@@ -69,7 +94,9 @@ async function renderTabla() {
     }
 }
 
-// --- MODAL Y EDICIÓN ---
+/**
+ * Abre el modal de edición precargando los datos de la fila seleccionada.
+ */
 function abrirModal(idCita) {
     const fila = document.querySelector(`tr[data-id="${idCita}"]`);
     if (!fila) return alert("Error: No se pudieron cargar los datos.");
@@ -88,11 +115,12 @@ function cerrarModal() {
     document.getElementById("formEdicion").reset();
 }
 
-// --- GUARDAR EDICIÓN CON VALIDACIÓN ---
+/**
+ * Envía los cambios del modal (estado, empleado, observación) al servidor.
+ */
 async function guardarEdicion() {
     const estado = document.getElementById("editEstado").value;
-    
-    // Validación simple de cliente
+
     if (!estado) {
         alert("Por favor, seleccione un estado válido.");
         return;
@@ -105,11 +133,11 @@ async function guardarEdicion() {
             body: formData
         });
         const result = await response.json();
-        
+
         if (result.success) {
             alert("Cita actualizada correctamente.");
             cerrarModal();
-            renderTabla();
+            actualizarTabla();
         } else {
             alert("Error al actualizar: " + (result.message || "Intente nuevamente."));
         }
@@ -119,17 +147,19 @@ async function guardarEdicion() {
     }
 }
 
-// --- ELIMINAR ---
+/**
+ * Elimina una cita previa confirmación del usuario.
+ */
 async function eliminarCita(id) {
     if (!confirm("¿Estás seguro de eliminar esta cita?")) return;
 
     try {
         const response = await fetch(`index.php?controller=citas&action=eliminar&id=${encodeURIComponent(id)}`);
-        const result = await response.json(); 
-        
+        const result = await response.json();
+
         if (result.success) {
             alert("Cita eliminada correctamente");
-            renderTabla();
+            actualizarTabla();
         } else {
             alert("Error al eliminar: " + (result.message || "Error desconocido"));
         }
@@ -138,7 +168,9 @@ async function eliminarCita(id) {
     }
 }
 
-// --- EMPLEADOS ---
+/**
+ * Carga el listado de empleados en el <select> del modal de edición.
+ */
 async function cargarEmpleados() {
     try {
         const response = await fetch('index.php?controller=citas&action=obtenerEmpleados');
@@ -146,7 +178,6 @@ async function cargarEmpleados() {
         const select = document.getElementById('editEmpleado');
         select.innerHTML = '<option value="">-- Sin asignar --</option>';
         empleados.forEach(emp => {
-            // Concatenamos nombre, apellido y cargo
             const nombreCompleto = `${emp.nombre} ${emp.apellido} - ${emp.cargo}`;
             select.innerHTML += `<option value="${emp.id_empleado}">${nombreCompleto}</option>`;
         });
@@ -155,9 +186,12 @@ async function cargarEmpleados() {
     }
 }
 
+/**
+ * Restablece los filtros y vuelve a consultar el listado completo.
+ */
 function limpiarFiltros() {
     document.getElementById("filtroFecha").value = "";
     document.getElementById("buscadorGeneral").value = "";
     document.getElementById("filtroEstado").value = "todos";
-    renderTabla();
+    actualizarTabla();
 }

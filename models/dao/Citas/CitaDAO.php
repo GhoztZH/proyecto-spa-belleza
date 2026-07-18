@@ -15,6 +15,13 @@ class CitaDAO extends BaseDAO
         }
     }
 
+    /**
+     * Lista todas las citas (vista administrador) con filtros opcionales.
+     *
+     * @param string|null $fecha  Filtra por fecha exacta (YYYY-MM-DD).
+     * @param string|null $buscar Texto libre: busca en cliente, servicio y empleado.
+     * @param string      $estado 'todos' o un valor del enum de citas.estado.
+     */
     public function listar($fecha = null, $buscar = null, $estado = 'todos')
     {
         $sql = "SELECT c.*, CONCAT(u.nombre, ' ', u.apellido) as nombre_cliente, 
@@ -38,6 +45,7 @@ class CitaDAO extends BaseDAO
                 OR u.apellido LIKE :buscarApellido
                 OR s.nombre LIKE :buscarServicio
                 OR e.nombre LIKE :buscarEmpleado
+                OR e.apellido LIKE :buscarApellidoEmpleado
             )";
         }
 
@@ -52,12 +60,17 @@ class CitaDAO extends BaseDAO
             $stmt->bindValue(':buscarApellido', "%$buscar%");
             $stmt->bindValue(':buscarServicio', "%$buscar%");
             $stmt->bindValue(':buscarEmpleado', "%$buscar%");
+            $stmt->bindValue(':buscarApellidoEmpleado', "%$buscar%");
         }
 
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Lista las citas de un cliente puntual (vista "Mi Agenda"), con los
+     * mismos filtros opcionales que listar().
+     */
     public function listarPorCliente($id_cliente, $fecha = null, $buscar = null, $estado = 'todos')
     {
         $sql = "SELECT c.*, CONCAT(u.nombre, ' ', u.apellido) as nombre_cliente, 

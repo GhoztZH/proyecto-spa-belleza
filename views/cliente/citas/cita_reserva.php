@@ -93,8 +93,6 @@ $tratamientos = $tratamientos ?? [];
         </form>
     </div>
 </main>
-</div>
-</div>
 
 <?php
 $pageScript = "assets/js/registroCita.js";
