@@ -36,7 +36,7 @@ async function actualizarTabla() {
 
         citas.forEach(c => {
             const key = `${c.fecha}_${c.hora}_${c.id_cliente}`;
-            const nombreS = c.nombre_servicio || 'Sin servicio';
+            const nombres = c.nombre_servicio || 'Sin servicio';
             
             if (!citasAgrupadas[key]) {
                 citasAgrupadas[key] = { 
@@ -45,8 +45,8 @@ async function actualizarTabla() {
                 };
             }
 
-            if (nombreS !== 'Sin servicio') {
-                citasAgrupadas[key].serviciosSet.add(nombreS);
+            if (nombres !== 'Sin servicio') {
+                citasAgrupadas[key].serviciosSet.add(nombres);
             }
         });
 
